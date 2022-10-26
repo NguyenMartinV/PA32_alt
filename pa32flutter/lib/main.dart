@@ -29,7 +29,6 @@ import 'package:pa32/white/whiteList.dart';
 
 import 'package:pa32/servide/service.dart'; //ServicePage
 
-import 'package:pa32/about/about.dart';
 
 import 'package:pa32/about/component/agreement.dart';
 

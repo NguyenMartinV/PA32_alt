@@ -1,3 +1,6 @@
+
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:pa32/component/common_appbar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -18,6 +21,7 @@ class _AboutPageState extends State<AboutPage> {
   }
 
 
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +33,19 @@ class _AboutPageState extends State<AboutPage> {
     return CommonAppBar(
       bgColor:  const Color(0xffF2F2F2),
       title: "About",
-      body: Padding(
+      body: Container(
+        decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0x6603A9F4),
+                  Color(0x9903A9F4),
+                  Color(0xcc03A9F4),
+                  Color(0xff03A9F4),
+                ]
+            )
+        ),
         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
         child: Column(
           children: [
@@ -38,11 +54,11 @@ class _AboutPageState extends State<AboutPage> {
                 padding: const EdgeInsets.all(0.0),
                 child: Column(
                   children: [
-                    Container(
-                      width: 37,
-                      height: 37,
+                    Container(  // logo
+                      width: 365,
+                      height: 146,
                       margin: EdgeInsets.only(top: 44.0, bottom: 20.0),
-                      child: Image.asset("assets/images/about_icon.png"),
+                      child: Image.asset("assets/images/app logo final.png"),
                     ),
                     Text(
                       "Version $appVersion",
@@ -53,7 +69,7 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 35.0),
+              margin: EdgeInsets.only(top: 35.0), // logo和选项框的距离
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(
                 left: 20.0,
@@ -67,7 +83,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 color: Colors.white,
               ),
-              height: 155.0,
+              height: 140.0,    // 选项框的高度
               child: AboutContent(),
             ),
           ],
@@ -95,7 +111,7 @@ class AboutContent extends StatelessWidget {
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           child: Container(
-            padding: EdgeInsets.only(top: 10.0),
+            padding: EdgeInsets.only(top: 4.5, bottom: 4.5),   // 字和上下栏的距离
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -106,9 +122,9 @@ class AboutContent extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 7,
-                  height: 12,
-                  child: Image.asset("assets/images/cares_next.png"),
+                  width: 20,
+                  height: 20,
+                  child: Icon(Icons.chevron_right),
                 ),
               ],
             ),

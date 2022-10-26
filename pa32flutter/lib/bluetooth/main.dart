@@ -75,7 +75,7 @@ class FindDevicesScreen extends StatefulWidget {
 
 class _FindDevicesScreenState extends State<FindDevicesScreen> {
   @override
-  var msg = 'To connect pendant, hold the pendant against the back of the phone and hold down the button. Once connected, the pendant will automatically receive signals as long as it remains in range and the search button is active.'
+  var msg = 'Please press the scan button and keep the pendant against the back of the device while holding down the button to connect.'
       '\n'
       'Note: if an action is detected, the app will stop searching automatically';
 
@@ -105,19 +105,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                       .toList(),
                 ),
               ),
-              StreamBuilder<List<ScanResult>>(
-                stream: FlutterBlue.instance.scanResults,
-                initialData: [],
-                builder: (c, snapshot) => Column(
-                  children: snapshot.data!
-                      .map(
-                        (r) => ScanResultTile(
-                      result: r,
-                    ),
-                  )
-                      .toList(),
-                ),
-              ),
             ],
           ),
         ),
@@ -133,11 +120,10 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                 setState(() {
                   msg = 'No Longer Scanning';
                 });}
-
             );
           } else {
-            return FloatingActionButton(
-                child: Icon(Icons.search),
+            return OutlinedButton(
+                child: Text('Scan'),
                 onPressed: () async {
                   FlutterBlue.instance
                       .startScan();
@@ -150,7 +136,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                         var key=r.advertisementData.manufacturerData.keys.single;
                         var adat=r.advertisementData.manufacturerData[key];
                         var outp=String.fromCharCode(adat![17])+String.fromCharCode(adat[18]);
-                        if(outp.contains('2')){
+
                           if(r.rssi<-40){
                             FlutterBlue.instance.stopScan();
                             setState(() {
@@ -162,7 +148,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                             setState(() {
                               msg = 'Pairing Request Detected (RSSI '+r.rssi.toString()+')'+'\n'+'Device Autoconnect Successful.';});
                           }
-                        }
+
                         print(outp);
                         break;
                       }

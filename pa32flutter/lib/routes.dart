@@ -24,7 +24,6 @@ import 'package:pa32/servide/service.dart';
 import 'package:pa32/call/emergencyPhone.dart';
 
 //About相关路由入口
-import 'package:pa32/about/about.dart';
 import 'package:pa32/about/component/privacy.dart';
 import 'package:pa32/about/component/agreement.dart';
 import 'package:pa32/about/component/contact.dart';
@@ -44,6 +43,7 @@ import 'package:pa32/customer/component/email.dart';
 import 'package:pa32/customer/component/physical.dart';
 import 'package:pa32/customer/component/address.dart';
 
+import 'about/about_page.dart';
 import 'home/bottom_nav.dart';
 
 class Routes {

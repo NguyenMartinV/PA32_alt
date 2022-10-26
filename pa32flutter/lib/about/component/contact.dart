@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pa32/component/my_divider.dart';
 
 import '../../component/common_appbar.dart';
+
 
 class ContactUsPage extends StatelessWidget {
   @override
@@ -9,7 +9,19 @@ class ContactUsPage extends StatelessWidget {
     return CommonAppBar(
       bgColor:  const Color(0xffF2F2F2),
       title: "Contact Us",
-      body: Padding(
+      body: Container(
+        decoration:  const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0x6603A9F4),
+                  Color(0x9903A9F4),
+                  Color(0xcc03A9F4),
+                  Color(0xff03A9F4),
+                ]
+            )
+        ),
         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
         child: Column(
           children: [
@@ -21,9 +33,9 @@ class ContactUsPage extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 42.0, bottom: 71.0),
                       child: Container(
-                        width: 37,
-                        height: 35,
-                        child: Image.asset("assets/images/contact_us.png"),
+                        width: 365,
+                        height: 146,
+                        child: Image.asset("assets/app logo final.png"),
                       ),
                     ),
                   ],

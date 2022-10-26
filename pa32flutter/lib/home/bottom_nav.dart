@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:pa32/Password/ResetPassword.dart';
-import 'package:pa32/about/about.dart';
 import 'package:pa32/alerts/alerts.dart';
 import 'package:pa32/bluetooth/bluetoothDevice.dart';
 import 'package:pa32/bluetooth/bluetoothTest.dart';
@@ -10,6 +9,7 @@ import 'package:pa32/bluetooth/main.dart';
 import 'package:pa32/cares/cares.dart';
 import 'package:pa32/home/myHomeMap.dart';
 
+import '../about/about_page.dart';
 import '../call/emergencyPhone.dart';
 
 

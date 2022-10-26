@@ -32,13 +32,13 @@ class _BluetoothTestState extends State<BluetoothTest> {
       // do something with scan results
 
       for (ScanResult r in results) {
-        if(r.device.name=="PD001"/*&&r.rssi<-45*/){
+        if(r.device.name=="PD001"&&r.rssi<-45){
           print("Please bring pendant closer. Try again.");
           flutterBlue.stopScan();
         }
         if(r.device.name=="PD001"&&r.rssi>-45){
           print('${r.device.name} found! rssi: ${r.rssi}');
-          r.device.connect();
+          //r.device.connect();
           flutterBlue.stopScan();
         }
 

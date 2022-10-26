@@ -153,6 +153,7 @@ flutter:
    - assets/images/down_arr.png
    - assets/images/this_location.png
    - assets/images/location.png
+   - assets/images/app logo final.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
