@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:pa32/Password/ResetPassword.dart';
 import 'package:pa32/about/about.dart';
 import 'package:pa32/alerts/alerts.dart';
 import 'package:pa32/bluetooth/bluetoothDevice.dart';
+import 'package:pa32/bluetooth/bluetoothTest.dart';
+import 'package:pa32/bluetooth/main.dart';
 import 'package:pa32/cares/cares.dart';
 import 'package:pa32/home/myHomeMap.dart';
 
@@ -22,8 +25,8 @@ class _BottomNaviState extends State<BottomNavi> {
   int currentIndex = 0;
   final screens = [
     MyHomeMap(),
-    DevicesPage(),
-    AlertsPage(),
+    FlutterBlueApp(),
+    BluetoothTest(),
     AboutPage(),
     CaresPage(),
     EmergencyPhone(),
