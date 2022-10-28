@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pa32/component/common_appbar.dart';
 import 'package:pa32/component/common_toast.dart';
 import 'package:pa32/http/DioManager.dart';
 import 'package:pa32/http/bean/care_givers_detail_entity.dart';
 import 'package:pa32/http/config/BaseConfig.dart';
 import 'package:pa32/utils/SPUtil.dart';
-
-import '../../component/common_appbar.dart';
 
 class CareGivers extends StatefulWidget {
   @override

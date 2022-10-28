@@ -2,8 +2,9 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:pa32/component/common_appbar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../component/common_appbar.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -124,7 +125,7 @@ class AboutContent extends StatelessWidget {
                 Container(
                   width: 20,
                   height: 20,
-                  child: Icon(Icons.chevron_right),
+                  child: Icon(Icons.arrow_forward_ios),
                 ),
               ],
             ),

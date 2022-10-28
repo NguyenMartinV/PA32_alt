@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:pa32/CareTakerHomePage.dart';
 import 'package:pa32/Password/ResetPassword.dart';
 import 'package:pa32/alerts/alerts.dart';
 import 'package:pa32/bluetooth/bluetoothDevice.dart';
-import 'package:pa32/bluetooth/bluetoothTest.dart';
-import 'package:pa32/bluetooth/main.dart';
 import 'package:pa32/cares/cares.dart';
+import 'package:pa32/devices.dart';
 import 'package:pa32/home/myHomeMap.dart';
+import 'package:pa32/profile/profile.dart';
 
 import '../about/about_page.dart';
 import '../call/emergencyPhone.dart';
@@ -24,13 +24,14 @@ class _BottomNaviState extends State<BottomNavi> {
 
   int currentIndex = 0;
   final screens = [
+    CareTakerHomePage(),
     MyHomeMap(),
-    FlutterBlueApp(),
-    BluetoothTest(),
-    AboutPage(),
-    CaresPage(),
-    EmergencyPhone(),
-    ResetPassword(),
+    //AlertsPage(),
+    DevicesHome(),
+    ProfilePage(),
+    // CaresPage(),
+    // EmergencyPhone(),
+    // ResetPassword(),
 
 
     // TrackerPage(),
@@ -57,9 +58,6 @@ class _BottomNaviState extends State<BottomNavi> {
           BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black,), label: 'Home', backgroundColor: Colors.white),
           BottomNavigationBarItem(icon: Icon(Icons.gps_fixed, color: Colors.black,), label: 'Track', backgroundColor: Colors.white),
           BottomNavigationBarItem(icon: Icon(Icons.device_hub, color: Colors.black,), label: 'Devices', backgroundColor: Colors.white),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black,), label: 'Profile', backgroundColor: Colors.white),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black,), label: 'Profile', backgroundColor: Colors.white),
-          BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black,), label: 'Profile', backgroundColor: Colors.white),
           BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black,), label: 'Profile', backgroundColor: Colors.white),
 
         ],

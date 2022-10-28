@@ -152,7 +152,8 @@ class _CaresPageState extends State<CaresPage> {
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {
-            Navigator.popUntil(context, ModalRoute.withName("/MyHomeMap"));
+            //Navigator.popUntil(context, ModalRoute.withName("/MyHomeMap"));
+            Navigator.pop(context);
             // Navigator.pushNamed(context, "/MyHomeMap");
           },
           child: Icon(

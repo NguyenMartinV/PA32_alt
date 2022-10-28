@@ -5,11 +5,10 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/widgets.dart';
-//import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../home/myHomeMap.dart';
+
 import '../http/DioManager.dart';
 import '../http/bean/my_emergency_call_entity.dart';
 import '../http/config/BaseConfig.dart';
@@ -157,6 +156,7 @@ class FindDevicesScreen extends StatelessWidget {
 
   //List<BluetoothDevice> connectedDevices = await FlutterBlue.instance.connectedDevices;
 
+  FlutterBlue flutterBlue = FlutterBlue.instance;
   static const intro =
       'To connect pendant, please press search button and then press and hold the button on the pendant until the red light appears. Find the pendant in the list and press \"CONNECT\". Once connected, press the search button and leave on. Your device is ready to use.'
       '\n'
@@ -166,20 +166,21 @@ class FindDevicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: (){
             Navigator.of(context).pop();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomeMap()),
-            );
+            //Navigator.of(context).pop();
           },
         ),
         title: Text('Find Devices'),
       ),
       body: RefreshIndicator(
+        backgroundColor: Colors.blue,
+        color: Colors.blue,
         onRefresh: () =>
             FlutterBlue.instance.startScan(/*timeout: Duration(seconds: 30)*/),
         child: SingleChildScrollView(
@@ -303,7 +304,8 @@ class FindDevicesScreen extends StatelessWidget {
               );
             } else {
               return FloatingActionButton(
-                child: Icon(Icons.search),
+                backgroundColor: Colors.blue,
+                child: Icon(Icons.search, color: Colors.white,),
                 onPressed: () async {
                   counter =0;
                   FlutterBlue.instance.startScan();
@@ -321,74 +323,85 @@ class FindDevicesScreen extends StatelessWidget {
                     var subscription = FlutterBlue.instance.scanResults.listen((results) async {
 
                       for (ScanResult r in results) {
-                        i++;
-                        sig[i] = r.rssi;
-                        devinf[i] = r.device.id.id;
-                        name[i]=r.device.name;
-                        int key = 0;
-                        //print(counter);
-                        if(r.device.name=='PD001') {
-                          connectedDevices = await FlutterBlue.instance.connectedDevices;
-                          print(connectedDevices);
-                          print(r.device);
-                          if(connectedDevices.contains(r.device)&&counter==1){
-                            key = r.advertisementData.manufacturerData.keys.single;
-
-
-                            var adat=r.advertisementData.manufacturerData[key]?.toList();
-                            var outp=String.fromCharCode(adat![17])+String.fromCharCode(adat[18]);
-                            print(outp + 'output');
-                            if(outp.contains('2')){
-                              print('Pendant Key Event Detected');}
-                            if(outp.contains('1')){
-                              print('Fall Event Detected');}
-                            if(outp.contains('0')){
-                              print('Neutral. No Event Detected');}
-                            print(outp);
-                            String message = "This is a test message";
-                            int pageNo = 0;
-                            int pageSize = 0;
-                            String qry_customerId_eq = "";
-
-    DioManager().post(
-    BaseConfig.API_HOST + "pa32/emergencyList",
-    {
-    "pageNo": pageNo,
-    "pageSize": pageSize,
-    "qry_customerId_eq": qry_customerId_eq,
-    },
-    (success) {
-    MyEmergencyCallEntity bean = MyEmergencyCallEntity.fromJson(success);
-
-    },
-    (error) {},
-    );
-                            // FirebaseFirestore.instance
-                            //     .collection('users')
-                            //     .doc(_device)
-                            //     .get()
-                            //     .then((DocumentSnapshot documentSnapshot) async {
-                            //   try {
-                            //     FlutterBlue.instance.stopScan();
-                            //     Position pos = await _determinePosition();
-                            //     String position = pos.toString();
-                            //     //print(position);
-                            //     dynamic nested = documentSnapshot.get(FieldPath(['emergency']));
-                            //     String number = nested.toString();
-                            //     FlutterPhoneDirectCaller.callNumber(number);
-                            //     recipents = [number];
-                            //     flag = true;
-                            //     _sendSMS('This is an emergency alert.\n' + position + ': This is my current location', recipents);
-                            //
-                            //   } on StateError catch(e) {
-                            //     print('No nested field exists!');
-                            //   }
-                            // });
-                            break;
-                          }
-                          counter = 1;
+                        if(r.device.name=="PD001"&&r.rssi<-45){
+                          print("Please bring pendant closer. Try again.");
+                          flutterBlue.stopScan();
                         }
+                        if(r.device.name=="PD001"&&r.rssi>-45){
+                          print('${r.device.name} found! rssi: ${r.rssi}');
+                          r.device.connect();
+                          flutterBlue.stopScan();
+                        }
+
+    //                     i++;
+    //                     sig[i] = r.rssi;
+    //                     devinf[i] = r.device.id.id;
+    //                     name[i]=r.device.name;
+    //                     int key = 0;
+    //                     //print(counter);
+    //                     if(r.device.name=='PD001') {
+    //                       connectedDevices = await FlutterBlue.instance.connectedDevices;
+    //                       print(connectedDevices);
+    //                       print(r.device);
+    //                       if(connectedDevices.contains(r.device)&&counter==1){
+    //                         key = r.advertisementData.manufacturerData.keys.single;
+    //
+    //
+    //                         var adat=r.advertisementData.manufacturerData[key]?.toList();
+    //                         var outp=String.fromCharCode(adat![17])+String.fromCharCode(adat[18]);
+    //                         print(outp + 'output');
+    //                         if(outp.contains('2')){
+    //                           print('Pendant Key Event Detected');}
+    //                         if(outp.contains('1')){
+    //                           print('Fall Event Detected');}
+    //                         if(outp.contains('0')){
+    //                           print('Neutral. No Event Detected');}
+    //                         print(outp);
+    //                         String message = "This is a test message";
+    //                         int pageNo = 0;
+    //                         int pageSize = 0;
+    //                         String qry_customerId_eq = "";
+    //
+    // DioManager().post(
+    // BaseConfig.API_HOST + "pa32/emergencyList",
+    // {
+    // "pageNo": pageNo,
+    // "pageSize": pageSize,
+    // "qry_customerId_eq": qry_customerId_eq,
+    // },
+    // (success) {
+    // MyEmergencyCallEntity bean = MyEmergencyCallEntity.fromJson(success);
+    //
+    // },
+    // (error) {},
+    // );
+    //                         // FirebaseFirestore.instance
+    //                         //     .collection('users')
+    //                         //     .doc(_device)
+    //                         //     .get()
+    //                         //     .then((DocumentSnapshot documentSnapshot) async {
+    //                         //   try {
+    //                         //     FlutterBlue.instance.stopScan();
+    //                         //     Position pos = await _determinePosition();
+    //                         //     String position = pos.toString();
+    //                         //     //print(position);
+    //                         //     dynamic nested = documentSnapshot.get(FieldPath(['emergency']));
+    //                         //     String number = nested.toString();
+    //                         //     FlutterPhoneDirectCaller.callNumber(number);
+    //                         //     recipents = [number];
+    //                         //     flag = true;
+    //                         //     _sendSMS('This is an emergency alert.\n' + position + ': This is my current location', recipents);
+    //                         //
+    //                         //   } on StateError catch(e) {
+    //                         //     print('No nested field exists!');
+    //                         //   }
+    //                         // });
+    //                         break;
+    //                       }
+    //                       counter = 1;
+    //                     }
                       }
+                      results.clear();
                       //FlutterBlue.instance.stopScan();
                     });
                   }
@@ -404,200 +417,3 @@ class FindDevicesScreen extends StatelessWidget {
   }
 }
 
-/*class DeviceScreen extends StatelessWidget {
-   DeviceScreen({Key? key, required this._device}) : super(key: key);
-
-  final BluetoothDevice _device;
-
-  List<int> _getRandomBytes() {
-    final math = Random();
-    return [
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255)
-    ];
-  }
-
-  List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-        service: s,
-        characteristicTiles: s.characteristics
-
-            .map(
-
-              (c) => CharacteristicTile(
-            characteristic: c,
-            onReadPressed: () => c.read(),
-            onWritePressed: () async {
-              await c.write(_getRandomBytes(), withoutResponse: true);
-              await c.read();
-            },
-            onNotificationPressed: () async {
-              await c.setNotifyValue(!c.isNotifying);
-              await c.read();
-              //_deviceService();
-            },
-            descriptorTiles: c.descriptors
-                .map((d) => DescriptorTile(
-                descriptor: d,
-                onReadPressed: () async {
-                  d.read();
-                  print('Testing uuid: ');
-                  //_deviceService();
-                  },
-                onWritePressed: () => d.write(_getRandomBytes()),
-
-              ),
-
-            )
-                .toList(),
-          ),
-        )
-            .toList(),
-      ),
-    )
-        .toList();
-  }
-
- */
-/*
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_device.name),
-        actions: <Widget>[
-          StreamBuilder<BluetoothDeviceState>(
-            stream: _device.state,
-            initialData: BluetoothDeviceState.connecting,
-            builder: (c, snapshot) {
-              VoidCallback? onPressed;
-              String text;
-              switch (snapshot.data) {
-                case BluetoothDeviceState.connected:
-                  onPressed = () => _device.disconnect();
-                  text = 'DISCONNECT';
-                  break;
-                case BluetoothDeviceState.disconnected:
-                  onPressed = () {
-                    _device.connect();
-                  };
-                  text = 'CONNECT';
-                  break;
-                default:
-                  onPressed = null;
-                  text = snapshot.data.toString().substring(21).toUpperCase();
-                  break;
-              }
-              return FlatButton(
-                  onPressed: onPressed,
-                  child: Text(
-                    text,
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        ?.copyWith(color: Colors.white),
-                  ));
-            },
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            StreamBuilder<BluetoothDeviceState>(
-              stream: _device.state,
-              initialData: BluetoothDeviceState.connecting,
-              builder: (c, snapshot) => ListTile(
-                leading: (snapshot.data == BluetoothDeviceState.connected)
-                    ? Icon(Icons.bluetooth_connected)
-                    : Icon(Icons.bluetooth_disabled),
-                title: Text(
-                    'Device is ${snapshot.data.toString().split('.')[1]}.'),
-                subtitle: Text('${_device.id}'),
-                trailing: StreamBuilder<bool>(
-                  stream: _device.isDiscoveringServices,
-                  initialData: false,
-                  builder: (c, snapshot) => IndexedStack(
-                    index: snapshot.data! ? 1 : 0,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.refresh),
-                        onPressed: () async {
-                          _device.discoverServices();
-                          _deviceService();
-
-                          },
-                      ),
-                      IconButton(
-                        icon: SizedBox(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.grey),
-                          ),
-                          width: 18.0,
-                          height: 18.0,
-                        ),
-                        onPressed: null,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            StreamBuilder<int>(
-              stream: _device.mtu,
-              initialData: 0,
-              builder: (c, snapshot) => ListTile(
-                title: Text('MTU Size'),
-                subtitle: Text('${snapshot.data} bytes'),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => _device.requestMtu(223),
-                ),
-              ),
-            ),
-            StreamBuilder<List<BluetoothService>>(
-              stream: _device.services,
-              initialData: [],
-              builder: (c, snapshot) {
-
-                /*var subscription = FlutterBlue.instance.scanResults.listen((results) {
-
-                  // do something with scan results
-
-                    for (ScanResult r in results) {
-                      if(r.advertisementData.manufacturerData.isEmpty){
-                        continue;
-                      }
-                      else{
-                        if(r.advertisementData.manufacturerData.keys.toString()=='(0)'){
-                          print('Found');
-                          print('check _device toString' + FlutterBlue.instance.connectedDevices.toString());
-                          print('${r.advertisementData.manufacturerData}');
-                          parseManufacturerData(r.advertisementData.manufacturerData);
-                        }
-                        // Pass it to our previous function
-                        //parseManufacturerData(r.advertisementData.manufacturerData);
-                      }
-
-                    }
-
-                });*/
-                //_deviceService();
-                return Column(
-                  children: _buildServiceTiles(snapshot.data!),
-
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-
-    );
-  }
-}*/
