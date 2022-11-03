@@ -131,18 +131,18 @@ class _ProfilePageState extends State<ProfilePage> {
       elevation: 0,
       title: Text(
         "Profile",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.blue),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Colors.blueAccent),
       ),
       actions: <Widget> [
-        TextButton(onPressed: (){
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomeMap())
-          );
-        },child: Text(
-          "Edit",
-          style: TextStyle(fontSize: 16),)
-        )
+        // TextButton(onPressed: (){
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => MyHomeMap())
+        //   );
+        // },child: Text(
+        //   "Edit",
+        //   style: TextStyle(fontSize: 16, color: Colors.blueAccent),)
+        // )
       ]
     );
   }

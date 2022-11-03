@@ -166,13 +166,13 @@ class ProfileMenu extends StatelessWidget {
         onPressed: press,
         child: Row(
           children: [
-            Icon(icon, color: Colors.lightBlue,),
+            Icon(icon, color: Colors.blueAccent,),
             SizedBox(width: 20),
             Expanded(child: Text(
               text,
               style: Theme.of(context).textTheme.bodyText1,
             )),
-            Icon(Icons.arrow_forward_ios, color: Colors.lightBlue,)
+            Icon(Icons.arrow_forward_ios, color: Colors.blueAccent,)
           ],
         ),
       ),
