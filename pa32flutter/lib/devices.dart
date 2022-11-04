@@ -133,11 +133,10 @@ class _DevicesHomeState extends State<DevicesHome> {
                 icon: Icons.bluetooth,
                 text: "Activate WeCare Service",
                 press: () {
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   "/ServicePage",
-                  //   arguments: {"page": "CaresPage"},
-                  // );
+                  Navigator.pushNamed(
+                    context,
+                    "/ServicePage",
+                  );
                 },
               ),
 

@@ -92,6 +92,8 @@ class _MyHomeMapPage extends State<MyHomeMap> {
       (success) {
         // print(success);
         CustomerListAllEntity bean = CustomerListAllEntity.fromJson(success);
+        // print("This is the bean");
+        // print(bean);
 
         if (bean.code == 0 && bean.data != null) {
           myHomeList.clear();

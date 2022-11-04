@@ -98,8 +98,11 @@ class _BodyState extends State<Body> {
                 icon: Icons.elderly,
                 text: "Cares",
                 press: () {
-                  Navigator.pushNamed(context, "/CaresPage");
-                },
+                  Navigator.pushNamed(
+                    context,
+                    "/CaresPage",
+                    arguments: {"page": "MyHomeMap"},
+                  );                },
               ),
 
               ProfileMenu(
@@ -126,7 +129,7 @@ class _BodyState extends State<Body> {
                 icon: Icons.logout,
                 text: "Log Out",
                 press: () {
-
+                  Navigator.pushNamed(context, "/LoginPage");
                 },
               ),
             ],
