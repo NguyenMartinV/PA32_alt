@@ -1,6 +1,12 @@
 
 import 'package:flutter/material.dart';
 
+import 'component/common_toast.dart';
+import 'http/DioManager.dart';
+import 'http/bean/customer_list_all_entity.dart';
+import 'http/bean/my_cares_customer_detail_entity.dart';
+import 'http/config/BaseConfig.dart';
+
 
 
 
@@ -16,6 +22,47 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
   bool active = false;
   bool active1 = false;
   bool active2 = false;
+  List myAlertsData = [];
+  String ? message = "Hello";
+  Future<String> displayText() async{
+    DioManager().post(
+      BaseConfig.API_HOST + "pa32/customerDetail",
+      {
+        "customerId": '1582350198864605184',
+        "mask": 15,
+        "arrayMask": 15,
+        "count": "{0:1,3:10}",
+      },
+          (success) async {
+        setState(() {
+
+        });
+        MyCaresCustomerDetailEntity bean =
+        MyCaresCustomerDetailEntity.fromJson(success);
+
+        // if (bean.code == 0 && bean.data != null){
+        //   myHomeList.clear();
+        //   myHomeList.addAll(bean.data!);
+        // }
+        // else{
+        //
+        // }
+
+        //print(bean);
+
+        //message = bean.data?.nickname.toString();
+        final data = bean.data;
+        if(data!=null){
+          message = data.firstName.toString() + " "  + data.middleName.toString()  + "\n" + data.address.toString() + " " + data.lastName.toString() + "\n" + data.birth.toString() + "\n" + data.gender.toString() + "\n" + data.physicalCondition.toString() + "\n" + data.deviceId.toString() + "\n" + data.lastUpdateTime.toString();
+        }
+        return message;
+      },
+          (error) {
+        CommonToast.showToast(error);
+      },
+    );
+    return "Loading...";
+  }
   int num = 0;
   static const intro =
       'To connect pendant, please press search button and then press and hold the button on the pendant until the red light appears. Find the pendant in the list and press \"CONNECT\". Once connected, press the search button and leave on. Your device is ready to use.'
@@ -83,6 +130,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                     active = !active;
                                   }
                                   if(panelIndex==1){
+                                    displayText();
                                     active1 = !active1;
                                   }
 
@@ -125,7 +173,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                         )),
                                     body: Container(
                                       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                                      child: Text('Name: William Difty\nAge: 78\nHeight: 5\'9\"\nWeight: 220\nBlood Type: AB-\nHealth Condition(s): chronic back pain, rheumatoid arthritis',style: TextStyle(fontFamily: 'Cairo',fontSize: 18),),
+                                      child: Text(message!, style: TextStyle(fontFamily: 'Cairo',fontSize: 18),),//Text('Name: William Difty\nAge: 78\nHeight: 5\'9\"\nWeight: 220\nBlood Type: AB-\nHealth Condition(s): chronic back pain, rheumatoid arthritis',style: TextStyle(fontFamily: 'Cairo',fontSize: 18),),
                                     ),
                                     isExpanded: active1,
 

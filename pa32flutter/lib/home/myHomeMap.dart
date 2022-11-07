@@ -738,6 +738,7 @@ class _MyHomeMapPage extends State<MyHomeMap> {
                             );
                           }
                           if (index == 4) {
+
                             Navigator.pushNamed(
                               context,
                               "/AboutPage",
