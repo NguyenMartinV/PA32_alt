@@ -35,7 +35,7 @@ class ContactUsPage extends StatelessWidget {
                       child: Container(
                         width: 365,
                         height: 146,
-                        child: Image.asset("assets/app logo final.png"),
+                        child: Image.asset("assets/images/app logo final.png"),
                       ),
                     ),
                   ],
