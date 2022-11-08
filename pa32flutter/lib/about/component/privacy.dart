@@ -7,7 +7,7 @@ class PrivacyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return  CommonAppBar(
       bgColor:  const Color(0xffF2F2F2),
-      title: "Privacy Notice",
+      title: "Privacy Policy",
       body: PrivacyText(),
     );
   }
@@ -22,10 +22,10 @@ class PrivacyText extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0x6603A9F4),
-                Color(0x9903A9F4),
-                Color(0xcc03A9F4),
-                Color(0xff03A9F4),
+                Color(0xFFA2C8FC),
+                Color(0xFF9AC3FC),
+                Color(0xFF85B5F8),
+                Color(0xFF66A5FC),
               ]
           )
       ),
