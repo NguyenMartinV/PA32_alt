@@ -143,13 +143,13 @@ class _DevicesHomeState extends State<DevicesHome> {
                   );
                 },
               ),
-              ProfileMenu(
-                icon: Icons.bluetooth,
-                text: "Tester",
-                press: () {
-
-                },
-              ),
+              // ProfileMenu(
+              //   icon: Icons.bluetooth,
+              //   text: "Tester",
+              //   press: () {
+              //
+              //   },
+              // ),
 
             ],
           ),
