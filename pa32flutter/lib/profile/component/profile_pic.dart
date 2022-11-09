@@ -83,7 +83,7 @@ class _ProfilePicState extends State<ProfilePic> {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/nice picture.jpg"),
+            backgroundImage: AssetImage("assets/images/avatar.png"),
             backgroundColor: Colors.white,
           ),
           Positioned(

@@ -169,7 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
         orientation: Orientation.portrait);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFA2C8FC),
       appBar: PreferredSize( //外面套一个PreferredSize
           preferredSize: Size.fromHeight(20.0), // 设置高度
           child: AppBar( //这个是原本的AppBar内容
@@ -181,6 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Image.asset("assets/images/app logo final.png"),
             Container(
               // height: MediaQuery.of(context).size.height - 260,
               margin: EdgeInsets.only(top: 40.h - bottom,left: 25.w,right:25.w),

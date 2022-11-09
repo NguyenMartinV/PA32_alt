@@ -70,7 +70,7 @@ class ContactUsPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "(014)513-1745",
+                          "(214)764-5189",
                           style: TextStyle(
                             fontSize: 15.0,
                           ),
@@ -90,7 +90,7 @@ class ContactUsPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "ffsas@gmail.com",
+                          "support@live4iot.com",
                           style: TextStyle(
                             fontSize: 15.0,
                           ),

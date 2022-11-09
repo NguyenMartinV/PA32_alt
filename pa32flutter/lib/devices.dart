@@ -4,12 +4,8 @@ import 'package:pa32/alerts/alerts.dart';
 import 'package:pa32/call/emergencyPhone.dart';
 import 'package:pa32/profile/component/body.dart';
 
-import 'about/about_page.dart';
 import 'bluetooth/bluetoothDevice.dart';
-import 'component/common_toast.dart';
-import 'http/DioManager.dart';
-import 'http/bean/my_cares_customer_detail_entity.dart';
-import 'http/config/BaseConfig.dart';
+
 
 
 

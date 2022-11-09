@@ -143,7 +143,7 @@ class _ForgotPasswordPage extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return CommonAppBar(
         elevation: 0.5,
-        bgColor:  Colors.white,
+        bgColor:  Color(0xFFA2C8FC),
         title: "Forgot Password",
         body: Stack(
           children: [

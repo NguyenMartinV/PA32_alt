@@ -9,6 +9,7 @@ import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
 
 
+import '../component/common_toast.dart';
 import '../http/DioManager.dart';
 import '../http/bean/my_emergency_call_entity.dart';
 import '../http/config/BaseConfig.dart';
@@ -217,6 +218,7 @@ class FindDevicesScreen extends StatelessWidget {
                       builder: (c, snapshot) {
                         if (snapshot.data ==
                             BluetoothDeviceState.connected) {
+                          CommonToast.showToast("Connected!");
                           return ElevatedButton(
                               child: Text('DISCONNECT'),
                               onPressed: () {
@@ -309,6 +311,7 @@ class FindDevicesScreen extends StatelessWidget {
                 onPressed: () async {
                   counter =0;
                   FlutterBlue.instance.startScan();
+                  CommonToast.showToast("Scanning!");
                   //getDevices();
 
 
@@ -324,11 +327,15 @@ class FindDevicesScreen extends StatelessWidget {
 
                       for (ScanResult r in results) {
                         if(r.device.name=="PD001"&&r.rssi<-45){
+                          //add conditional to check if device is connected then call
                           print("Please bring pendant closer. Try again.");
+                          CommonToast.showToast("Please bring pendant closer. Try again.");
                           flutterBlue.stopScan();
                         }
                         if(r.device.name=="PD001"&&r.rssi>-45){
+                          //conditional to check if device has been connected then say device already connect else do below
                           print('${r.device.name} found! rssi: ${r.rssi}');
+                          CommonToast.showToast("${r.device.name} found! rssi: ${r.rssi}");
                           r.device.connect();
                           flutterBlue.stopScan();
                         }

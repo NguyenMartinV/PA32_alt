@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         orientation: Orientation.portrait);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xFFA2C8FC),
       appBar: PreferredSize( //外面套一个PreferredSize
           preferredSize: Size.fromHeight(20.0), // 设置高度
           child: AppBar( //这个是原本的AppBar内容
@@ -150,11 +150,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Column(
           children: [
+            Image.asset("assets/images/app logo final.png"),
             Container(
               margin: EdgeInsets.only(top: 40.h,left: 25.w,right:25.w),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
+
               ),
               child: Stack(
                 children: [
