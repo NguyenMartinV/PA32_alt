@@ -326,6 +326,7 @@ class FindDevicesScreen extends StatelessWidget {
                     var subscription = FlutterBlue.instance.scanResults.listen((results) async {
 
                       for (ScanResult r in results) {
+                        print(r.advertisementData);
                         if(r.device.name=="PD001"&&r.rssi<-45){
                           //add conditional to check if device is connected then call
                           print("Please bring pendant closer. Try again.");
