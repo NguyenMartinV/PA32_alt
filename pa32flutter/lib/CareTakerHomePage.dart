@@ -1,5 +1,10 @@
 
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pa32/utils/DataUtils.dart';
+import 'package:pa32/utils/SPUtil.dart';
 
 import 'component/common_toast.dart';
 import 'http/DioManager.dart';
@@ -22,16 +27,57 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
   bool active = false;
   bool active1 = false;
   bool active2 = false;
-  List myAlertsData = [];
-  String ? message = "Hello";
-  Future<String> displayText() async{
+  late GoogleMapController mapController;
+  bool isMapVisible = false;
+  bool flag = true;
+  bool myCountFlag = false;
+  String myPhone = '';
+  String imgSrc = '';
+  String showIconId = '';
+  String userImgSrc = '';
+  String myIconId = "";
+  String myToken = "";
+  String myUserId = "";
+  String myUserIcon = "";
+
+  String callOutTime = '';
+  String callComeTime = '';
+  int myCount = 0;
+  int mySwiperIndex = 0;
+  LatLng _kGooglePlex = LatLng(37.42796133580664, -122.085749655962);
+  String myCustomerId = '';
+  List<CustomerListAllData> myHomeList = [];
+  List myGpsList = [];
+  List myEmergencyList = [];
+  List myAlertList = [];
+  List<Marker> customMarkers = [];
+  String gpsAddress = "";
+  MapType _mapType = MapType.normal;
+  final CustomInfoWindowController _customInfoWindowController =
+  CustomInfoWindowController();
+  var earth = Image.asset("assets/images/default_earth.png", //地球图标
+      width: 20,
+      height: 20);
+  Future<String> _getAddress(LatLng latLng) async {
+    List<Placemark> p = await placemarkFromCoordinates(
+        latLng.latitude, latLng.longitude,
+        localeIdentifier: "en");
+    Placemark place = p[0];
+    return
+      "${place.street} ${place.locality}, ${place.administrativeArea},${place.postalCode},${place.isoCountryCode}";
+    // setState(() {
+    //   address = _currentAddress;
+    // });
+  }
+  _customerDetail(
+      String customerId, int mask, int arrayMask, String count) async {
     DioManager().post(
       BaseConfig.API_HOST + "pa32/customerDetail",
       {
-        "customerId": '1582350198864605184',
-        "mask": 15,
-        "arrayMask": 15,
-        "count": "{0:1,3:10}",
+        "customerId": customerId,
+        "mask": mask,
+        "arrayMask": arrayMask,
+        "count": count,
       },
           (success) async {
         setState(() {
@@ -53,7 +99,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
         //message = bean.data?.nickname.toString();
         final data = bean.data;
         if(data!=null){
-          message = data.firstName.toString() + " "  + data.middleName.toString()  + "\n" + data.address.toString() + " " + data.lastName.toString() + "\n" + data.birth.toString() + "\n" + data.gender.toString() + "\n" + data.physicalCondition.toString() + "\n" + data.deviceId.toString() + "\n" + data.lastUpdateTime.toString();
+          message = data.firstName.toString() + " "  + data.middleName.toString()  + "\n" + data.address.toString() + " " + data.lastName.toString() + "\n" + data.birth.toString() + "\n" + data.gender.toString() + "\n" + data.physicalCondition.toString() + "\n" + data.deviceNo.toString() + "\n" + data.lastUpdateTime.toString();
         }
         return message;
       },
@@ -61,8 +107,134 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
         CommonToast.showToast(error);
       },
     );
-    return "Loading...";
   }
+  _customerList(
+      int sortType,
+      int sort,
+      int pageNo,
+      int pageSize,
+      int mask,
+      int arrayMask,
+      String count,
+      ) async {
+    DioManager().post(
+      BaseConfig.API_HOST + "pa32/customerList",
+      {
+        "sortType": sortType,
+        "sort": sort,
+        "pageNo": pageNo,
+        "pageSize": pageSize,
+        "mask": mask,
+        "arrayMask": arrayMask,
+        "count": count,
+      },
+          (success) {
+        // print(success);
+        CustomerListAllEntity bean = CustomerListAllEntity.fromJson(success);
+        // print("This is the bean");
+        // print(bean);
+
+        if (bean.code == 0 && bean.data != null) {
+          myHomeList.clear();
+          myHomeList.addAll(bean.data!);
+          if (myHomeList.isNotEmpty) {
+            setState((){
+              if(myHomeList[0].gps != null && myHomeList[0].gps!.isNotEmpty){
+                _getAddress(LatLng(myHomeList[0].gps![0].lat!,myHomeList[0].gps![0].lng!)).then((value) => {
+                  setState(() {
+                    gpsAddress = value;
+                  })
+                });
+              }
+              showIconId = myHomeList[0].icon as String;
+              callOutTime = myHomeList[0].callOutTime ?? "";
+              callComeTime = myHomeList[0].callComeTime ?? "";
+              myCount = myHomeList.length;
+              myGpsList = myHomeList[0].gps ?? [];
+              myEmergencyList = myHomeList[0].emergency ?? [];
+              myAlertList = myHomeList[0].alert ?? [];
+              SPUtil.getToken().then(
+                    (value) => {
+                  setState(() {
+                    imgSrc =
+                    '${BaseConfig.API_HOST}file/view?code=userIcon&id=$showIconId&token=Bearer $value';
+                  })
+                },
+              );
+              if (myGpsList.isNotEmpty) {
+                LatLng _kGooglePlex = new LatLng(
+                  myGpsList[0].lat,
+                  myGpsList[0].lng,
+                );
+                mapController.animateCamera(
+                  CameraUpdate.newLatLngZoom(_kGooglePlex, 16),
+                );
+                Utils.getBytesFromAsset(
+                    'assets/images/positionMax.png', 127, 128)
+                    .then((d) {
+                  setState(() {
+                    customMarkers.add(
+                      Marker(
+                        markerId: MarkerId("146564654564"),
+                        icon: BitmapDescriptor.fromBytes(d),
+                        position: _kGooglePlex,
+                      ),
+                    );
+                  });
+                });
+              }
+            });
+            // print("75+++++++:${callOutTime + '--' + callComeTime}");
+          } else {}
+        }
+      },
+          (error) {
+        CommonToast.showToast(error);
+      },
+    );
+  }
+  List myAlertsData = [];
+  bool flag1 = true;
+  String ? message = "Hello";
+  // Future<String> displayText() async{
+  //   DioManager().post(
+  //     BaseConfig.API_HOST + "pa32/customerDetail",
+  //     {
+  //       "customerId": '1591099483739385856',
+  //       "mask": 15,
+  //       "arrayMask": 15,
+  //       "count": "{0:1,3:10}",
+  //     },
+  //         (success) async {
+  //       setState(() {
+  //
+  //       });
+  //       MyCaresCustomerDetailEntity bean =
+  //       MyCaresCustomerDetailEntity.fromJson(success);
+  //
+  //       // if (bean.code == 0 && bean.data != null){
+  //       //   myHomeList.clear();
+  //       //   myHomeList.addAll(bean.data!);
+  //       // }
+  //       // else{
+  //       //
+  //       // }
+  //
+  //       //print(bean);
+  //
+  //       //message = bean.data?.nickname.toString();
+  //       final data = bean.data;
+  //       if(data!=null){
+  //         message = data.firstName.toString() + " "  + data.middleName.toString()  + "\n" + data.address.toString() + " " + data.lastName.toString() + "\n" + data.birth.toString() + "\n" + data.gender.toString() + "\n" + data.physicalCondition.toString() + "\n" + data.deviceNo.toString() + "\n" + data.lastUpdateTime.toString();
+  //       }
+  //       return message;
+  //     },
+  //         (error) {
+  //       CommonToast.showToast(error);
+  //     },
+  //   );
+  //   return "Loading...";
+  // }
   int num = 0;
   static const intro =
       'To connect pendant, please press search button and then press and hold the button on the pendant until the red light appears. Find the pendant in the list and press \"CONNECT\". Once connected, press the search button and leave on. Your device is ready to use.'
@@ -71,7 +243,13 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
+    if (flag1) {
+      //myCustomerId = myHomeList[0].id ?? "";
+      var args = ModalRoute.of(context)!.settings.arguments;
+      if (args != null && args is Map) {}
+      _customerList(0, 0, 1, 999, 15, 15, "{0:1,3:10}");
+      flag1 = false;
+    }
 
     return Scaffold(
       body:
@@ -119,6 +297,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
 
                           Container(
 
+
                             width: MediaQuery.of(context).size.width/1.1,
                              child: ExpansionPanelList(
 
@@ -127,14 +306,22 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                 elevation: 1,
                                 expansionCallback: (panelIndex, isExpanded) {
                                   if(panelIndex==0){
+
+                                    myCustomerId = myHomeList[0].id ?? "";
+                                    _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active = !active;
                                   }
                                   if(panelIndex==1){
-                                    displayText();
+
+                                    myCustomerId = myHomeList[1].id ?? "";
+                                    _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active1 = !active1;
                                   }
 
                                   if(panelIndex==2){
+
+                                    myCustomerId = myHomeList[2].id ?? "";
+                                    _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active2 = !active2;
                                   }
                                   setState(() {
@@ -156,7 +343,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                         )),
                                     body: Container(
                                       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                                      child: Text('Name: John Smith\nAge: 70\nHeight: 5\'11\"\nWeight: 180\nBlood Type: O-\nHealth Condition(s): Loss of Hearing, diabetes: Type A, Neck Pain',style: TextStyle(fontSize: 18, fontFamily: 'Cairo'),textAlign: TextAlign.left,),
+                                      child: Text(message!,style: TextStyle(fontSize: 18, fontFamily: 'Cairo'),textAlign: TextAlign.left,),
                                     ),
                                     isExpanded: active,
 
@@ -190,7 +377,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                         )),
                                     body: Container(
                                       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                                      child: Text('Name: Barbara Gordan\nAge: 85\nHeight: 5\'3\"\nWeight: 220\nBlood Type: AB-\nHealth Condition(s): Knee pain, Osteoarthiritis, Hearing Loss, Hypertension',style: TextStyle(fontSize: 18, fontFamily: 'Cairo'),),
+                                      child: Text(message!,style: TextStyle(fontSize: 18, fontFamily: 'Cairo'),),
                                     ),
                                     isExpanded: active2,
 
