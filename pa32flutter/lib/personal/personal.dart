@@ -1,285 +1,198 @@
 import 'package:flutter/material.dart';
-import 'package:pa32/routes.dart';
+import 'package:pa32/component/common_toast.dart';
+import 'package:pa32/http/DioManager.dart';
+import 'package:pa32/http/config/BaseConfig.dart';
+import 'package:pa32/utils/DataUtils.dart';
 
-class PersonalPage extends StatefulWidget {
-  PersonalPage({
-    Key? key,
-  }) : super(key: key);
+class SetPassword extends StatefulWidget {
   @override
-  State<PersonalPage> createState() => _PersonalPageState();
+  State<SetPassword> createState() => _SetPasswordPage();
 }
 
-class _PersonalPageState extends State<PersonalPage> {
-  /* List list = [
-    {
-      Icon
-    }
-  ]; */
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      drawer: Drawer(
-        child: MyPersonalDrawer(),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
+class _SetPasswordPage extends State<SetPassword> {
+  bool flag = true;
+  String myVerificationCode = '';
+  String myPhone = '';
+  var newPassword = TextEditingController();
+  var confrmPassword = TextEditingController();
+  _giverRegister(String phone, String verificationCode, String pwd) async {
+    DioManager().post(
+      BaseConfig.API_HOST + "pa32/giverReg",
+      {
+        "phone": phone,
+        "verificationCode": verificationCode,
+        "pwd": pwd,
+      },
+          (success) {
+        if (success['code'] == 0) {
+          Navigator.pushNamed(context, "/LoginPage");
+        } else {
+          CommonToast.showToast(success['msg']);
+        }
+      },
+          (error) {
+        CommonToast.showToast(error);
+      },
     );
   }
-}
 
-class MyPersonalDrawer extends StatefulWidget {
-  @override
-  State<MyPersonalDrawer> createState() => _MyPersonalDrawerState();
-}
-
-class _MyPersonalDrawerState extends State<MyPersonalDrawer> {
   @override
   Widget build(BuildContext context) {
+    if (flag) {
+      var args = ModalRoute.of(context)!.settings.arguments;
+
+      if (args is Map) {
+        setState(() {
+          myVerificationCode = args['myYzm'];
+          myPhone = args['account'];
+          flag = false;
+        });
+      }
+      // print("++++++52+++:${myPhone}");
+    }
     return Scaffold(
-      backgroundColor: Color(0xdd283137),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: const Text(
+          "Set Password",
+          textAlign: TextAlign.center,
+        ),
+        elevation: 0.5,
+      ),
       body: Container(
-        padding: EdgeInsets.only(top: 50.0),
+        // color: Colors.red,
+        width: MediaQuery.of(context).size.width - 80.0,
+        padding: EdgeInsets.only(top: 20.0),
+        margin: EdgeInsets.only(left: 40.0),
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(
-                top: 50.0,
-                left: 40.0,
-                right: 20.0,
-                bottom: 70.0,
-              ),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      print("更换头像"); //TODO
-                    },
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(
-                        right: 12.0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(29),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage("assets/images/avatar.png"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "12345678910",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
+            Text(
+              "Please set a new password that include 6-32 characters and no spaces.",
+              style: TextStyle(
+                height: 1.3,
+                color: Color(0xffA9A9A9),
+                fontSize: 15.0,
               ),
             ),
-            // SizedBox(
-            // height: 300.0,
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 40.0,
-                right: 20.0,
-              ),
-              child: ListView.separated(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  Widget imageUrl = Container(width: 0, height: 0);
-                  String leftText = "";
-                  int rightNum = 0;
-                  switch (index) {
-                    case 0:
-                      leftText = "Cares";
-                      rightNum = 3;
-                      imageUrl = Container(
-                        child: Image.asset("images/person.jpg"),
-                        width: 15.0,
-                        height: 15.0,
-                      );
-                      break;
-                    case 1:
-                      leftText = "Emergency Call";
-                      imageUrl = Container(
-                        child: Image.asset("images/person.jpg"),
-                        width: 15.0,
-                        height: 15.0,
-                      );
-                      break;
-                    case 2:
-                      leftText = "Alerts";
-                      imageUrl = Container(
-                        child: Image.asset("images/person.jpg"),
-                        width: 15.0,
-                        height: 15.0,
-                      );
-                      break;
-                    case 3:
-                      leftText = "Password";
-                      imageUrl = Container(
-                        child: Image.asset("images/person.jpg"),
-                        width: 15.0,
-                        height: 15.0,
-                      );
-                      break;
-                    case 4:
-                      leftText = "About";
-                      imageUrl = Container(
-                        child: Image.asset("images/person.jpg"),
-                        width: 15.0,
-                        height: 15.0,
-                      );
-                      break;
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10.0,
-                      bottom: 15.0,
+            Container(
+              width: MediaQuery.of(context).size.width,
+              // color: Colors.red,
+              margin: EdgeInsets.only(top: 40.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "New Password",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
                     ),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: newPassword,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Confirm Password",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
+                    ),
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: confrmPassword,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      margin: EdgeInsets.only(top: 50.0),
+                      decoration: BoxDecoration(
+                        color: Color(0xff028AFE),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
                         children: [
-                          Row(
-                            children: [
-                              /* Image(
-                                width: 20.0,
-                                height: 20.0,
-                                fit: BoxFit.contain,
-                                image: AssetImage("assets/images/avatar.png"),
-                              ), */
-                              imageUrl,
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  leftText,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: Text(
-                                  "$rightNum",
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.white,
-                                size: 25.0,
-                              )
-                            ],
+                          Text(
+                            "Confrm",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
                           ),
                         ],
                       ),
-                      onTap: () {
-                        if (index == 0) {
-                          Navigator.pushNamed(
-                            context,
-                            "/CaresPage",
-                            arguments: {
-                              'rightNum': rightNum,
-                            },
-                          );
-                        }
-                        if (index == 1) {
-                          Navigator.pushNamed(
-                            context,
-                            "/EmergencyPhone",
-                            arguments: {
-                              'rightNum': rightNum,
-                            },
-                          );
-                        }
-                        if (index == 2) {
-                          Navigator.pushNamed(
-                            context,
-                            "/AlertsPage",
-                            arguments: {
-                              'rightNum': rightNum,
-                            },
-                          );
-                        }
-                        if (index == 3) {
-                          Navigator.pushNamed(
-                            context,
-                            "/ResetPassword",
-                            arguments: {
-                              'rightNum': rightNum,
-                            },
-                          );
-                        }
-                        if (index == 4) {
-                          Navigator.pushNamed(
-                            context,
-                            "/AboutPage",
-                            arguments: {
-                              'rightNum': rightNum,
-                            },
-                          );
-                        }
-                      },
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    height: 2.0,
-                    color: Colors.white,
-                    // indent: 20.0,
-                  );
-                },
-                shrinkWrap: true,
-              ),
-            ),
-            // )
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 150.0, left: 40.0),
-                  child: GestureDetector(
                     onTap: () {
-                      print("log out");
+                      // print(Utils.md5Encode(newPassword.text));
+                      if (newPassword.text == confrmPassword.text) {
+                        // print();
+                        if (newPassword.text.length >= 6 &&
+                            newPassword.text.length <= 32) {
+                          _giverRegister(
+                            myPhone,
+                            myVerificationCode,
+                            Utils.md5Encode(newPassword.text),
+                            // "9CBF8A4DCB8E30682B927F352D6559A0",
+                          );
+                        } else {
+                          CommonToast.showToast(
+                            "The password length should be 6-32 bits",
+                          );
+                          return;
+                        }
+                      } else {
+                        CommonToast.showToast(
+                          "The two passwords are inconsistent",
+                        );
+                      }
                     },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6.0),
-                          child: Text(
-                            "Log out",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.white,
-                              wordSpacing: 2.0,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ],
         ),

@@ -310,12 +310,16 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                     myCustomerId = myHomeList[0].id ?? "";
                                     _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active = !active;
+                                    active1 = false;
+                                    active2 = false;
                                   }
                                   if(panelIndex==1){
 
                                     myCustomerId = myHomeList[1].id ?? "";
                                     _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active1 = !active1;
+                                    active2 = false;
+                                    active = false;
                                   }
 
                                   if(panelIndex==2){
@@ -323,6 +327,8 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                     myCustomerId = myHomeList[2].id ?? "";
                                     _customerDetail(myCustomerId, 15, 15, "0:1,3:10");
                                     active2 = !active2;
+                                    active = false;
+                                    active1 = false;
                                   }
                                   setState(() {
 

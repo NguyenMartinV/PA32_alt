@@ -117,7 +117,7 @@ class _SetPasswordPage extends State<SetPassword> {
                   Row(
                     children: [
                       Text(
-                        "Confrm Password",
+                        "Confirm Password",
                         style: TextStyle(
                           fontSize: 16.0,
                         ),

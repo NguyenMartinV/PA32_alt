@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pa32/Password/ResetPassword.dart';
 import 'package:pa32/cares/cares.dart';
 import 'package:pa32/home/myHomeMap.dart';
+import 'package:pa32/personal/personal.dart';
 import 'package:pa32/profile/component/profile_pic.dart';
 
 import '../../about/about_page.dart';
@@ -83,16 +84,16 @@ class _BodyState extends State<Body> {
 
               // SizedBox(height: 20,),
 
-              // ProfileMenu(
-              //   icon: Icons.person,
-              //   text: "Personal Info",
-              //   press: () {
-              //     Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => PersonalInfo())
-              //     );
-              //   },
-              // ),
+              ProfileMenu(
+                icon: Icons.person,
+                text: "Personal Info",
+                press: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PersonalPage())
+                  );
+                },
+              ),
 
               ProfileMenu(
                 icon: Icons.elderly,
