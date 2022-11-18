@@ -175,7 +175,7 @@ class Routes {
   //忘记密码重新设置 forgot password reset
   static final Handler _personalPageHandler = Handler(
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-    return PersonalPage();
+    return Personal();
   });
   //修改密码 ResetPassword
   static final Handler _resetPasswordHandler = Handler(

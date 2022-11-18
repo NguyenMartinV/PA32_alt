@@ -90,7 +90,7 @@ class _BodyState extends State<Body> {
                 press: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PersonalPage())
+                      MaterialPageRoute(builder: (context) => Personal  ())
                   );
                 },
               ),

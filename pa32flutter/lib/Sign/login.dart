@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   var phoneController = TextEditingController();
   var pwdController = TextEditingController();
   List myCountryList = [];
-  String countryCodeText = '86';
+  String countryCodeText = '1';
 
   _login(String phone, String password,int timeZoneOffset) async {
     DioManager().post(

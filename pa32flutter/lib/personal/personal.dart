@@ -4,17 +4,41 @@ import 'package:pa32/http/DioManager.dart';
 import 'package:pa32/http/config/BaseConfig.dart';
 import 'package:pa32/utils/DataUtils.dart';
 
-class SetPassword extends StatefulWidget {
+class Personal extends StatefulWidget {
   @override
-  State<SetPassword> createState() => _SetPasswordPage();
+  State<Personal> createState() => _PersonalPage();
 }
 
-class _SetPasswordPage extends State<SetPassword> {
+class _PersonalPage extends State<Personal> {
   bool flag = true;
   String myVerificationCode = '';
   String myPhone = '';
   var newPassword = TextEditingController();
   var confrmPassword = TextEditingController();
+  var firstName = TextEditingController();
+  var lastName = TextEditingController();
+  var email = TextEditingController();
+  var phoneNumber= TextEditingController();
+
+  _customerMod(String id, int fieldId, String fieldValue) async {
+    DioManager().post(
+      BaseConfig.API_HOST + "pa32/customerMod",
+      {
+        "id": id,
+        "fieldId": fieldId,
+        "fieldValue": fieldValue,
+      },
+          (success) {
+        if (success['code'] == 0) {
+          Navigator.pop(context, fieldValue);
+        } else {
+          CommonToast.showToast(success['msg']);
+        }
+      },
+          (error) {},
+    );
+  }
+
   _giverRegister(String phone, String verificationCode, String pwd) async {
     DioManager().post(
       BaseConfig.API_HOST + "pa32/giverReg",
@@ -138,6 +162,126 @@ class _SetPasswordPage extends State<SetPassword> {
                         print(value);
                       }, */
                       controller: confrmPassword,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "First Name",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
+                    ),
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: firstName,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Last Name",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
+                    ),
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: lastName,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Email",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
+                    ),
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: email,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        // isCollapsed: true,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Phone Number",
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        width: 1,
+                        color: Color(0xffEAEAEA),
+                      ),
+                    ),
+                    child: TextField(
+                      /* onChanged: (value) {
+                        print(value);
+                      }, */
+                      controller: phoneNumber,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         // isCollapsed: true,
