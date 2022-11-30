@@ -16,6 +16,8 @@ import 'package:pa32/Password/SetPassword.dart';
 import 'package:pa32/Password/ForgotPassword.dart';
 import 'package:pa32/Password/ForgotPasswordReset.dart';
 import 'package:pa32/Password/ResetPassword.dart'; //ResetPassword
+import 'package:pa32/home/userHome.dart';
+import 'package:pa32/home/userNav.dart';
 
 import 'package:pa32/personal/personal.dart'; //PersonalPage
 import 'package:pa32/alerts/alerts.dart';
@@ -50,6 +52,7 @@ class Routes {
   //home页面
   static const String home = "/MyHomeMap";
   static const String bottomNav = "/BottomNavi";
+  static const String userHome = "/UserHome";
   //注册
   static const String register = "/RegisterPage";
   //登录
@@ -125,6 +128,11 @@ class Routes {
       handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
     return DatePickerPubDemo();
   });
+
+  static final Handler _userHomeHandler = Handler(
+      handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+        return UserHome();
+      });
 
   // home页
   static final Handler _homeHandler = Handler(
@@ -292,6 +300,7 @@ class Routes {
     // 时间选择页
     router.define(DatePicke, handler: _DatePickeHandler);
     router.define(bottomNav, handler: _botHandler);
+    router.define(userHome, handler: _userHomeHandler);
 
     router.define(devicesPage, handler: _devicesPageHandler);
     // 首页

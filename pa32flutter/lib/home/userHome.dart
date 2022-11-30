@@ -142,58 +142,58 @@ class _UserHomeState extends State<UserHome> {
         orientation: Orientation.portrait);
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
-      appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color(0xff73BEFE),
-              Color(0xff038BFE),
-            ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.popUntil(context, ModalRoute.withName("/MyHomeMap"));
-              Navigator.pop(context);
-              // Navigator.pushNamed(context, "/MyHomeMap");
-            },
-            child: Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.white,
-              size: 18,
-            )
-        ),
-        centerTitle: true,
-        title: const Text(
-          "Cares",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        elevation: 0,
-        actions: [
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(right: 15.0),
-              child: Container(
-                width: 18,
-                height: 18,
-                child: Image.asset("assets/images/cares_add.png"),
-              ),
-            ),
-            onTap: () {
-              // print("add Care");
-              Navigator.pushNamed(
-                context,
-                "/ServicePage",
-                arguments: {"page": "UserHome"},
-              );
-            },
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   flexibleSpace: Container(
+      //     decoration: BoxDecoration(
+      //       gradient: LinearGradient(colors: [
+      //         Color(0xff73BEFE),
+      //         Color(0xff038BFE),
+      //       ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   // leading: GestureDetector(
+      //   //     onTap: () {
+      //   //       //Navigator.popUntil(context, ModalRoute.withName("/MyHomeMap"));
+      //   //       Navigator.pop(context);
+      //   //       // Navigator.pushNamed(context, "/MyHomeMap");
+      //   //     },
+      //   //     child: Icon(
+      //   //       Icons.arrow_back_ios_new,
+      //   //       color: Colors.white,
+      //   //       size: 18,
+      //   //     )
+      //   // ),
+      //   centerTitle: true,
+      //   title: const Text(
+      //     "Cares",
+      //     textAlign: TextAlign.center,
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //   elevation: 0,
+      //   actions: [
+      //     GestureDetector(
+      //       child: Container(
+      //         margin: EdgeInsets.only(right: 15.0),
+      //         child: Container(
+      //           width: 18,
+      //           height: 18,
+      //           child: Image.asset("assets/images/cares_add.png"),
+      //         ),
+      //       ),
+      //       onTap: () {
+      //         // print("add Care");
+      //         Navigator.pushNamed(
+      //           context,
+      //           "/ServicePage",
+      //           arguments: {"page": "UserHome"},
+      //         );
+      //       },
+      //     )
+      //   ],
+      // ),
       body: Container(
         height: MediaQuery.of(context).size.height - 80,
         width: MediaQuery.of(context).size.width,
@@ -201,6 +201,7 @@ class _UserHomeState extends State<UserHome> {
         color: Color(0xffF2F2F2),
         child: Stack(
           children: [
+
             Container(
               width: MediaQuery.of(context).size.width,
               height: 140.0,
@@ -224,6 +225,19 @@ class _UserHomeState extends State<UserHome> {
                   // color: Colors.red,
                   child: ListView(
                     children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("S.O.S.", style: TextStyle(fontSize: 23),),
+                        style: ButtonStyle(
+
+                          shape: MaterialStateProperty.all(CircleBorder()),
+                          padding: MaterialStateProperty.all(EdgeInsets.all(100)),
+                          backgroundColor: MaterialStateProperty.all(Colors.blue), // <-- Button color
+                          overlayColor: MaterialStateProperty.resolveWith<Color?>((states) {
+                            if (states.contains(MaterialState.pressed)) return Colors.red; // <-- Splash color
+                          }),
+                        ),
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width - 30,
                         // color: Colors.red,
