@@ -91,6 +91,8 @@ class _CaresPageState extends State<CaresPage> {
         if (bean.code == 0) {
           setState(() {
             myGivers = bean.data?.giver as List;
+            print("emergency");
+            print(myEmergency);
             myEmergency = bean.data?.emergency as List;
             myAlert = bean.data?.alert as List;
             myIconId = bean.data?.icon as String;
@@ -300,6 +302,22 @@ class _CaresPageState extends State<CaresPage> {
                                     ),
                                   ),
                                   Text("${myCaresData[index].deviceNo}"),
+
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 14,
+                                    height: 24,
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: Icon(Icons.gps_fixed,)
+                                  ),
+                                  Text("${myCaresData[index].gps[index].lat},  "),
+                                  Text("${myCaresData[index].gps[index].lng}"),
+                                  //Text("${myCaresData[index].gps.lng}"),
+                                  //Text("${myCaresData[index].gps.pos}"),
+                                  //CommonToast.showToast("${myCaresData[index].gps}"),
                                 ],
                               ),
                               Row(
@@ -740,7 +758,7 @@ class _CaresPageState extends State<CaresPage> {
                                         ),
                                       ),
                                     )
-                                  : Text("No alart information"),
+                                  : Text("No alert information"),
                             ),
                           ],
                         ),

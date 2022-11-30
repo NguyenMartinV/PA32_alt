@@ -65,11 +65,11 @@ class AgreementText extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "PrimeGPS uses the data we collect to provide you withrich, interactive experiences. In particular, we use data to:\n",
+                  "WeCare uses the data we collect to provide you with rich, interactive experiences. In particular, we use data to:\n",
                   style: TextStyle(fontSize: 14.0),
                 ),
                 Text(
-                  "1. Provide our products, which includes updating,securing, and troubleshooting, as well as providing support. lt also includes sharing data, when it is required to provide the service or carry out the transactions you request. \n2. lmprove and develop our products \n3. Personalize our products and make recommendations. \n4. Advertise and market to you, which includes sending promotional communications, targeting advertising,and presenting you with relevant offers.\n\n",
+                  "1. Provide our products, which includes updating, securing, troubleshooting, as well as providing support. It also includes sharing data, when it is required to provide the service or carry out the transactions you request. \n2. lmprove and develop our products \n3. Personalize our products and make recommendations. \n4. Advertise and market to you, which includes sending promotional communications, targeting advertising, and presenting you with relevant offers.\n\n",
                   style: TextStyle(fontSize: 14.0),
                 ),
                 Text(

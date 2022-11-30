@@ -33,7 +33,7 @@ class PrivacyText extends StatelessWidget {
       child: Column(
         children: [
           // Text(
-          //   "PrimeGPS uses the data we collect to provide you withrich, interactive experiences. In particular, we use data to:\n",
+          //   "WeCare uses the data we collect to provide you withrich, interactive experiences. In particular, we use data to:\n",
           //   style: TextStyle(fontSize: 14.0),
           // ),
           // Text(
@@ -66,7 +66,7 @@ class PrivacyText extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "PrimeGPS uses the data we collect to provide you withrich, interactive experiences. In particular, we use data to:\n",
+                  "WeCare uses the data we collect to provide you withrich, interactive experiences. In particular, we use data to:\n",
                   style: TextStyle(fontSize: 14.0),
                 ),
                 Text(
