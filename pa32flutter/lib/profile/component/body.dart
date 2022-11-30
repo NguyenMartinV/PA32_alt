@@ -84,57 +84,66 @@ class _BodyState extends State<Body> {
 
               // SizedBox(height: 20,),
 
-              ProfileMenu(
-                icon: Icons.person,
-                text: "Personal Info",
-                press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Personal  ())
-                  );
-                },
-              ),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
+                  //itemCount: 4,
+                  children: [
+                    ProfileMenu(
+                      icon: Icons.person,
+                      text: "Personal Info",
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Personal  ())
+                        );
+                      },
+                    ),
 
 
-              // Need to make this page SCROLLABLE
-              ProfileMenu(
-                icon: Icons.elderly,
-                text: "Cares",
-                press: () {
-                  Navigator.pushNamed(
-                    context,
-                    "/CaresPage",
-                    arguments: {"page": "MyHomeMap"},
-                  );                },
-              ),
+                    // Need to make this page SCROLLABLE
+                    ProfileMenu(
+                      icon: Icons.elderly,
+                      text: "Cares",
+                      press: () {
+                        Navigator.pushNamed(
+                          context,
+                          "/CaresPage",
+                          arguments: {"page": "MyHomeMap"},
+                        );                },
+                    ),
 
-              ProfileMenu(
-                icon: Icons.password,
-                text: "Reset Password",
-                press: () {
-                  Navigator.pushNamed(context, "/ResetPassword");
-                },
-              ),
+                    ProfileMenu(
+                      icon: Icons.password,
+                      text: "Reset Password",
+                      press: () {
+                        Navigator.pushNamed(context, "/ResetPassword");
+                      },
+                    ),
 
-              ProfileMenu(
-                icon: Icons.info,
-                text: "About",
-                press: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => AboutPage())
-                  // );
-                  Navigator.pushNamed(context, "/AboutPage");
-                },
-              ),
+                    ProfileMenu(
+                      icon: Icons.info,
+                      text: "About",
+                      press: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(builder: (context) => AboutPage())
+                        // );
+                        Navigator.pushNamed(context, "/AboutPage");
+                      },
+                    ),
 
-              ProfileMenu(
-                icon: Icons.logout,
-                text: "Log Out",
-                press: () {
-                  Navigator.pushNamed(context, "/LoginPage");
-                },
-              ),
+                    ProfileMenu(
+                      icon: Icons.logout,
+                      text: "Log Out",
+                      press: () {
+                        Navigator.pushNamed(context, "/LoginPage");
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ],
