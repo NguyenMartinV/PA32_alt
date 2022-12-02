@@ -26,7 +26,8 @@ class _BottomNaviState extends State<BottomNavi> {
   int currentIndex = 0;
   final screens = [
     //CareTakerHomePage(),
-    UserHome(),
+    //UserHome(),
+    CareTakerHomePage(),
     MyHomeMap(),
     //AlertsPage(),
     DevicesHome(),
