@@ -25,8 +25,8 @@ class _UserNaviState extends State<UserNavi> {
 
   int currentIndex = 0;
   final screens = [
-    //CareTakerHomePage(),
-    UserHome(),
+    // CareTakerHomePage(),
+     UserHome(),
     // CaresPage(),
     // EmergencyPhone(),
     // ResetPassword(),

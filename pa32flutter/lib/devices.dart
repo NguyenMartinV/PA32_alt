@@ -97,48 +97,56 @@ class _DevicesHomeState extends State<DevicesHome> {
               //   },
               // ),
 
-              ProfileMenu(
-                icon: Icons.alarm,
-                text: "Alerts Page",
-                press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AlertsPage())
-                  );
-                },
-              ),
+              Expanded(
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
+                  children: [
+                    ProfileMenu(
+                      icon: Icons.alarm,
+                      text: "Alerts Page",
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => AlertsPage())
+                        );
+                      },
+                    ),
 
-              ProfileMenu(
-                icon: Icons.call,
-                text: "Emergency Calls",
-                press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EmergencyPhone())
-                  );
-                },
-              ),
+                    ProfileMenu(
+                      icon: Icons.call,
+                      text: "Emergency Calls",
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EmergencyPhone())
+                        );
+                      },
+                    ),
 
-              ProfileMenu(
-                icon: Icons.bluetooth,
-                text: "BLE Pendant Connection",
-                press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FindDevicesScreen())
-                  );
-                },
-              ),
-              ProfileMenu(
-                icon: Icons.bluetooth,
-                text: "Activate WeCare Service",
-                press: () {
-                  Navigator.pushNamed(
-                    context,
-                    "/ServicePage",
-                  );
-                },
-              ),
+                    ProfileMenu(
+                      icon: Icons.bluetooth,
+                      text: "BLE Pendant Connection",
+                      press: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => FindDevicesScreen())
+                        );
+                      },
+                    ),
+                    ProfileMenu(
+                      icon: Icons.bluetooth,
+                      text: "Activate WeCare Service",
+                      press: () {
+                        Navigator.pushNamed(
+                          context,
+                          "/ServicePage",
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
               // ProfileMenu(
               //   icon: Icons.bluetooth,
               //   text: "Tester",

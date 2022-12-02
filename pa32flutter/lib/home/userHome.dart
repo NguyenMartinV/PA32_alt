@@ -31,6 +31,23 @@ class _UserHomeState extends State<UserHome> {
   String myUserId = "";
   String userImgSrc = '';
   String token = '';
+
+  @override
+  void initState() {
+    super.initState();
+    SPUtil.getToken().then(
+          (value) => {
+        setState(() {
+          myToken = value.toString();
+        })
+      },
+    );
+
+    if (flag) {
+      _customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
+      flag = false;
+    }
+  }
   _customerList(
       int sortType,
       int sort,
@@ -109,22 +126,7 @@ class _UserHomeState extends State<UserHome> {
     return '${parts[0]}:${parts[1]}:${parts[2].substring(0, 2)}';
   }
 
-  @override
-  void initState() {
-    super.initState();
-    SPUtil.getToken().then(
-          (value) => {
-        setState(() {
-          myToken = value.toString();
-        })
-      },
-    );
 
-    if (flag) {
-      _customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
-      flag = false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
