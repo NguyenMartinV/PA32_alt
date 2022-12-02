@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
           }
           Navigator.pushNamed(
             context,
-            "/UserHome",
+            "/BottomNavi",
           );
         } else {
           CommonToast.showToast("${bean.msg}");
