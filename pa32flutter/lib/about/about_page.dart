@@ -50,43 +50,51 @@ class _AboutPageState extends State<AboutPage> {
         padding: const EdgeInsets.only(left: 15.0, right: 15.0),
         child: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Column(
-                  children: [
-                    Container(  // logo
-                      width: 365,
-                      height: 146,
-                      margin: EdgeInsets.only(top: 44.0, bottom: 20.0),
-                      child: Image.asset("assets/images/app logo final.png"),
+            Expanded(
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                physics: BouncingScrollPhysics(),
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Column(
+                        children: [
+                          Container(  // logo
+                            width: 365,
+                            height: 146,
+                            margin: EdgeInsets.only(top: 44.0, bottom: 20.0),
+                            child: Image.asset("assets/images/app logo final.png"),
+                          ),
+                          Text(
+                            "Version $appVersion",
+                            style: TextStyle(fontSize: 15.0),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      "Version $appVersion",
-                      style: TextStyle(fontSize: 15.0),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 35.0), // logo和选项框的距离
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      top: 10.0,
+                      bottom: 10.0,
                     ),
-                  ],
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      color: Colors.white,
+                    ),
+                    height: 140.0,    // 选项框的高度
+                    child: AboutContent(),
+                  ),
+                ],
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 35.0), // logo和选项框的距离
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                top: 10.0,
-                bottom: 10.0,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-                color: Colors.white,
-              ),
-              height: 140.0,    // 选项框的高度
-              child: AboutContent(),
-            ),
+            )
           ],
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 // ignore: implementation_imports
 import 'package:flutter/src/painting/border_radius.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:pa32/CareTakerHomePage.dart';
 import 'package:pa32/Sign/login.dart'; //LoginPage
 import 'package:pa32/Sign/Register.dart'; //RegisterPage
 import 'package:pa32/customer/component/addressAlert.dart';
@@ -66,6 +67,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark
@@ -77,7 +82,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false, //去除debug标签
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.grey),
-      home: LoginPage(),
+      home: //LoginPage(),
+      CareTakerHomePage(),
       // home: EmergencyPhone(),CustomerPage
       // initialRoute: "/EmergencyPhone",
       onGenerateRoute: router.generator,
