@@ -82,8 +82,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false, //去除debug标签
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.grey),
-      home: //LoginPage(),
-      CareTakerHomePage(),
+      home: LoginPage(),
+      //CareTakerHomePage(),
       // home: EmergencyPhone(),CustomerPage
       // initialRoute: "/EmergencyPhone",
       onGenerateRoute: router.generator,
