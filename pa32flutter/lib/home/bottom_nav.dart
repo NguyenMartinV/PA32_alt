@@ -12,6 +12,7 @@ import 'package:pa32/profile/profile.dart';
 
 import '../about/about_page.dart';
 import '../call/emergencyPhone.dart';
+import '../test/test.dart';
 
 
 class BottomNavi extends StatefulWidget {
@@ -30,6 +31,7 @@ class _BottomNaviState extends State<BottomNavi> {
     MyHomeMap(),
     //AlertsPage(),
     DevicesHome(),
+    // TestPage(),
     ProfilePage(),
     // CaresPage(),
     // EmergencyPhone(),
