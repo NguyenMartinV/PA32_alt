@@ -254,6 +254,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                 ],
                               ),
                               Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Container(
                                       width: 14,
@@ -262,7 +263,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                       child: Icon(Icons.gps_fixed,)
                                   ),
                                   Text("${myCaresData[index].gps[index].lat},  "),
-                                  Text("${myCaresData[index].gps[index].lng}"),
+                                  Expanded(child: Text("${myCaresData[index].gps[index].lng}", maxLines: 1, overflow: TextOverflow.ellipsis,),)
                                   //Text("${myCaresData[index].gps.lng}"),
                                   //Text("${myCaresData[index].gps.pos}"),
                                   //CommonToast.showToast("${myCaresData[index].gps}"),
