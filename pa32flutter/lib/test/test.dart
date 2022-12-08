@@ -9,22 +9,20 @@ import 'package:pa32/http/config/BaseConfig.dart';
 import 'package:pa32/utils/SPUtil.dart';
 
 class TestPage extends StatefulWidget {
-  const TestPage({Key? key}) : super(key: key);
-
   @override
   State<TestPage> createState() => _TestPageState();
 }
 
 class _TestPageState extends State<TestPage> {
-  List myCaresData = [];
-  List myGivers = [];
-  List myEmergency = [];
-  List myAlert = [];
-  String myToken = '';
-  String myIconId = '';
-  String myUserId = '';
-  String token = '';
-  int MyswiperIndex = 0;
+  // List myCaresData = [];
+  // List myGivers = [];
+  // List myEmergency = [];
+  // List myAlert = [];
+  // String myToken = '';
+  // String myIconId = '';
+  // String myUserId = '';
+  // String token = '';
+  // int MyswiperIndex = 0;
 
   bool flag = true;
   int swiperIndex = 0;
@@ -92,8 +90,8 @@ class _TestPageState extends State<TestPage> {
       (success) {
         MyCaresCustomerDetailEntity bean =
             MyCaresCustomerDetailEntity.fromJson(success);
-        myEmergency.clear();
-        myAlert.clear();
+        // myEmergency.clear();
+        // myAlert.clear();
 
         // print(bean);
         // print(bean.data);
@@ -131,7 +129,7 @@ class _TestPageState extends State<TestPage> {
     return Center(
       child: Column(
         children: [
-          if(myCaresData.isNotEmpty)
+          if(myCustomerData.isNotEmpty)
             Container(
               width: 260,
               height: 80,
@@ -173,7 +171,7 @@ class _TestPageState extends State<TestPage> {
                                 width: 190,
                                 margin: EdgeInsets.only(left: 5),
                                 child: Text(
-                                  "Device No. ${myCustomerData[swiperIndex].nickname}",
+                                  "Device No. ${myCustomerData[swiperIndex].deviceNo}",
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Color(0xff999999),
