@@ -171,7 +171,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                     left: 15,
                     right: 15,
                   ),
-                  height: 120,
+                  height: 240,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -256,21 +256,19 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                      width: 14,
-                                      height: 24,
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: Icon(Icons.gps_fixed,)
-                                  ),
 
-                                  if(myCaresData[index].gps != null)
-                                    Text("${myCaresData[index].gps[index].lat},  "),
-                                    Expanded(child: Text("${myCaresData[index].gps[index].lng}", maxLines: 1, overflow: TextOverflow.ellipsis,),)
+
+                                  //if(myCaresData[index].gps != null)
+                                    //Text("${myCaresData[index].gps[index].lat}, ${myCaresData[index].gps[index].lng} "),
+
+                                    //Expanded(child: Text("${myCaresData[index].gps[index].lng}, ${myCaresData[index].gps[index].lng}", maxLines: 1, overflow: TextOverflow.ellipsis,),)
                                   //Text("${myCaresData[index].gps.lng}"),
                                   //Text("${myCaresData[index].gps.pos}"),
                                   //CommonToast.showToast("${myCaresData[index].gps}"),
                                 ],
+
                               ),
+
                               Row(
                                 children: [
                                   Container(
@@ -297,7 +295,35 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                 ],
                               ),
                             ],
+
                           ),
+                          Row(
+                            children: [
+                              Text("Last Known Location: "),
+                              Container(
+                                  width: 14,
+                                  height: 24,
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Icon(Icons.gps_fixed,)
+                              ),
+                              Flexible(
+                                child: new Container(
+                                  padding: new EdgeInsets.only(right: 13.0),
+                                  child: new Text(
+                                    ' ${myCaresData[index].gps[index].lat}, ${myCaresData[index].gps[index].lng}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: new TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: 'Roboto',
+                                      color: new Color(0xFF212121),
+                                      //fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
                         ],
                       );
                     },
