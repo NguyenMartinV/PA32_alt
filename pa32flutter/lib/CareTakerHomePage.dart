@@ -263,8 +263,9 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                       child: Icon(Icons.gps_fixed,)
                                   ),
 
-                                  Text("${myCaresData[index].gps[index].lat},  "),
-                                  Expanded(child: Text("${myCaresData[index].gps[index].lng}", maxLines: 1, overflow: TextOverflow.ellipsis,),)
+                                  if(myCaresData[index].gps != null)
+                                    Text("${myCaresData[index].gps[index].lat},  "),
+                                    Expanded(child: Text("${myCaresData[index].gps[index].lng}", maxLines: 1, overflow: TextOverflow.ellipsis,),)
                                   //Text("${myCaresData[index].gps.lng}"),
                                   //Text("${myCaresData[index].gps.pos}"),
                                   //CommonToast.showToast("${myCaresData[index].gps}"),
