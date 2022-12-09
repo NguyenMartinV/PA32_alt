@@ -261,6 +261,7 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                       margin: EdgeInsets.only(right: 10),
                                       child: Icon(Icons.gps_fixed,)
                                   ),
+
                                   Text("${myCaresData[index].gps[index].lat},  "),
                                   Text("${myCaresData[index].gps[index].lng}"),
                                   //Text("${myCaresData[index].gps.lng}"),
