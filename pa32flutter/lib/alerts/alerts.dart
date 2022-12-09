@@ -153,7 +153,7 @@ class _AlertsPageState extends State<AlertsPage> {
                                   width: 190,
                                   margin: EdgeInsets.only(left: 5),
                                   child: Text(
-                                    "Device No.: ${myCustomerData[swiperIndex].deviceNo}",
+                                    "Device No. ${myCustomerData[swiperIndex].deviceNo}",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff999999),
