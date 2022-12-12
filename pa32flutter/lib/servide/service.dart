@@ -105,7 +105,7 @@ class _ServicePageState extends State<ServicePage> {
           // print(success['code']);
           // Navigator.pop(context);
           // Navigator.pushNamed(context, "/$pageFrom");
-          Navigator.pushNamed(context, "/MyHomeMap");
+          Navigator.pushNamed(context, "/BottomNavi");
         } else {
           CommonToast.showToast(success['msg']);
         }
@@ -572,6 +572,7 @@ class _ServicePageState extends State<ServicePage> {
                                 addressDetail,
                                 zipCode
                               );
+
                             },
                           ),
                         )

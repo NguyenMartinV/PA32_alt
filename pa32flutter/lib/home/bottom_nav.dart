@@ -7,6 +7,7 @@ import 'package:pa32/bluetooth/bluetoothDevice.dart';
 import 'package:pa32/cares/cares.dart';
 import 'package:pa32/devices.dart';
 import 'package:pa32/home/myHomeMap.dart';
+import 'package:pa32/home/testProfile.dart';
 import 'package:pa32/home/userHome.dart';
 import 'package:pa32/profile/profile.dart';
 
@@ -26,8 +27,9 @@ class _BottomNaviState extends State<BottomNavi> {
 
   int currentIndex = 0;
   final screens = [
-    CareTakerHomePage(),
+    //CareTakerHomePage(),
     //UserHome(),
+    ChangeEmailPage(),
     MyHomeMap(),
     //AlertsPage(),
     DevicesHome(),
