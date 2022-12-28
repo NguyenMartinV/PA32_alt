@@ -78,7 +78,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
   void initState() {
     _getLoginUser();
     super.initState();
-    
+
   }
 
   @override
@@ -107,7 +107,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
           padding: EdgeInsets.all(20.r),
           margin: EdgeInsets.only(left:20.w,right: 20.w),
           decoration: BoxDecoration(
-              color: Colors.red
+              color: Colors.blue
           ),
           child: Stack(
             children: [

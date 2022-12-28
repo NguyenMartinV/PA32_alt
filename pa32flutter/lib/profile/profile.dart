@@ -125,13 +125,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFA2C8FC),
       leading: SizedBox(),
       centerTitle: true,
       elevation: 0,
       title: Text(
         "Profile",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Colors.blueAccent),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Colors.white),
       ),
       actions: <Widget> [
         // TextButton(onPressed: (){

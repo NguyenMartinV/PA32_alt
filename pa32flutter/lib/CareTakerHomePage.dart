@@ -283,45 +283,45 @@ class _CareTakerHomePageState extends State<CareTakerHomePage> {
                                   SizedBox(
                                     width: 4.5.w,
                                   ),
-                                  if (myCaresData[index].gps.isNotEmpty)
-                                    Text(
-                                      "${myCaresData[index].gps[0].batteryPower}%",
-                                      // "222222",
-                                      style: TextStyle(
-                                          color: Color(0xff4CD964),
-                                          fontSize: 12.sp
-                                      ),
-                                    ),
+                                  // if (myCaresData[index].gps.isNotEmpty)
+                                  //   Text(
+                                  //     "${myCaresData[index].gps[0].batteryPower}%",
+                                  //     // "222222",
+                                  //     style: TextStyle(
+                                  //         color: Color(0xff4CD964),
+                                  //         fontSize: 12.sp
+                                  //     ),
+                                  //   ),
                                 ],
                               ),
                             ],
 
                           ),
                           Row(
-                            children: [
-                              Text("Last Known Location: "),
-                              Container(
-                                  width: 14,
-                                  height: 24,
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Icon(Icons.gps_fixed,)
-                              ),
-                              Flexible(
-                                child: new Container(
-                                  padding: new EdgeInsets.only(right: 13.0),
-                                  child: new Text(
-                                    ' ${myCaresData[index].gps[index].lat}, ${myCaresData[index].gps[index].lng}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: new TextStyle(
-                                      fontSize: 13.0,
-                                      fontFamily: 'Roboto',
-                                      color: new Color(0xFF212121),
-                                      //fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            // children: [
+                            //   Text("Last Known Location: "),
+                            //   Container(
+                            //       width: 14,
+                            //       height: 24,
+                            //       margin: EdgeInsets.only(right: 10),
+                            //       child: Icon(Icons.gps_fixed,)
+                            //   ),
+                            //   Flexible(
+                            //     child: new Container(
+                            //       padding: new EdgeInsets.only(right: 13.0),
+                            //       child: new Text(
+                            //         ' ${myCaresData[index].gps[index].lat}, ${myCaresData[index].gps[index].lng}',
+                            //         overflow: TextOverflow.ellipsis,
+                            //         style: new TextStyle(
+                            //           fontSize: 13.0,
+                            //           fontFamily: 'Roboto',
+                            //           color: new Color(0xFF212121),
+                            //           //fontWeight: FontWeight.bold,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ],
                           ),
 
                         ],

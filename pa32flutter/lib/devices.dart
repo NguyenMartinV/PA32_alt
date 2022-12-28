@@ -134,16 +134,16 @@ class _DevicesHomeState extends State<DevicesHome> {
                         );
                       },
                     ),
-                    ProfileMenu(
-                      icon: Icons.bluetooth,
-                      text: "Activate WeCare Service",
-                      press: () {
-                        Navigator.pushNamed(
-                          context,
-                          "/ServicePage",
-                        );
-                      },
-                    ),
+                    // ProfileMenu(
+                    //   icon: Icons.bluetooth,
+                    //   text: "Activate WeCare Service",
+                    //   press: () {
+                    //     Navigator.pushNamed(
+                    //       context,
+                    //       "/ServicePage",
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               )

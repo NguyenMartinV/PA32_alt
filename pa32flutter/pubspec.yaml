@@ -58,6 +58,7 @@ dependencies:
   flutter_sms: ^2.3.3
   flutter_phone_direct_caller: ^2.1.1
   expandable: ^5.0.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

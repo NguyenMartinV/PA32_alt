@@ -809,38 +809,7 @@ class _MyHomeMapPage extends State<MyHomeMap> {
           ),
         ),
       ),
-      appBar: PreferredSize( //外面套一个PreferredSize
-        preferredSize: Size.fromHeight(40.0),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          leading: Builder(builder: (context) {
-            return GestureDetector(
-              onTap: () {
-                if (myCount <= 0) {
-                  Scaffold.of(context).openDrawer();
-                  CommonToast.showCenterTipsAlter(
-                    context,
-                        () {},
-                    "Tips",
-                    "You have not activated the Wecareservice, please activate it.",
-                  );
-                } else {
-                  Scaffold.of(context).openDrawer();
-                }
-              },
-              child: Container(
-                width: 15,
-                height: 12,
-                child: Image.asset(
-                  "assets/images/drawer.png",
-                  // fit: BoxFit.fill,
-                ),
-              ),
-            );
-          }),
-          elevation: 0,
-        ),
-      ),
+
 
       body: Column(
         children: [

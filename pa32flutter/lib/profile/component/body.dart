@@ -48,13 +48,7 @@ class _BodyState extends State<Body> {
                 height: 240,
                 child: Stack(
                   children: [
-                    ClipPath(
-                      clipper: CustomShape(),
-                      child: Container(
-                        height: 150,
-                        color: Colors.white,
-                      ),
-                    ),
+
                     Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,7 +90,7 @@ class _BodyState extends State<Body> {
                       press: () {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Personal  ())
+                            MaterialPageRoute(builder: (context) => Personal())
                         );
                       },
                     ),

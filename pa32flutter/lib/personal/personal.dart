@@ -4,7 +4,10 @@ import 'package:pa32/http/DioManager.dart';
 import 'package:pa32/http/config/BaseConfig.dart';
 import 'package:pa32/utils/DataUtils.dart';
 
+import '../http/bean/customer_list_all_entity.dart';
 import '../http/bean/my_cares_customer_detail_entity.dart';
+import '../utils/SPUtil.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Personal extends StatefulWidget {
   @override
@@ -22,59 +25,92 @@ class _PersonalPage extends State<Personal> {
   var email = TextEditingController();
   var phoneNumber= TextEditingController();
   Future<Object> ? message;
-
-  _customerDetail(
-      String customerId, int mask, int arrayMask, String count) async {
+  String callOutTime = '';
+  String callComeTime = '';
+  int MyswiperIndex = 0;
+  List myCaresData = [];
+  List myGivers = [];
+  List myEmergency = [];
+  List myAlert = [];
+  String myToken = '';
+  String myIconId = '';
+  String myUserId = "";
+  String userImgSrc = '';
+  String token = '';
+  int giverInt = 0;
+  _customerList(
+      int sortType,
+      int sort,
+      int pageNo,
+      int pageSize,
+      int mask,
+      int arrayMask,
+      String count,
+      ) async {
     DioManager().post(
-      BaseConfig.API_HOST + "pa32/customerDetail",
+      BaseConfig.API_HOST + "pa32/customerList",
       {
-        "customerId": customerId,
+        "sortType": sortType,
+        "sort": sort,
+        "pageNo": pageNo,
+        "pageSize": pageSize,
         "mask": mask,
         "arrayMask": arrayMask,
         "count": count,
       },
-          (success) async {
-        setState(() {
+          (success) {
+        CustomerListAllEntity bean = CustomerListAllEntity.fromJson(success);
 
-        });
-        MyCaresCustomerDetailEntity bean =
-        MyCaresCustomerDetailEntity.fromJson(success);
-
-        // if (bean.code == 0 && bean.data != null){
-        //   myHomeList.clear();
-        //   myHomeList.addAll(bean.data!);
-        // }
-        // else{
-        //
-        // }
-
-        //print(bean);
-
-        //message = bean.data?.nickname.toString();
-        final data = bean.data;
-        if(data!=null){
-          message = data as Future<Object>?;
-          //message = data.firstName.toString() + " "  + data.middleName.toString()  + "\n" + data.address.toString() + " " + data.lastName.toString() + "\n" + data.birth.toString() + "\n" + data.gender.toString() + "\n" + data.physicalCondition.toString() + "\n" + data.deviceNo.toString() + "\n" + data.lastUpdateTime.toString();
+        if (bean.code == 0) {
+          setState(() {
+            myCaresData = bean.data as List;
+            if (myCaresData.isNotEmpty) {
+              myIconId = myCaresData[0].icon;
+              myGivers = myCaresData[0].giver;
+              myEmergency = myCaresData[0].emergency;
+              myAlert = myCaresData[0].alert;
+            }
+          });
+        } else {
+          CommonToast.showToast("${bean.msg}");
         }
-        return message;
       },
-          (error) {
-        CommonToast.showToast(error);
+          (error) {},
+    );
+  }
+
+  @override
+  void initState() {
+    //_customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
+    // TODO: implement initState
+    super.initState();
+    SPUtil.get("myPhoneText").then(
+          (value) => {
+        setState(() {
+          myPhone = value.toString();
+        })
+      },
+    );
+    SPUtil.get("userId").then(
+          (value) => {
+        setState(() {
+          myUserId = value.toString();
+        })
       },
     );
   }
 
-  _customerMod(String id, int fieldId, String fieldValue) async {
+  _giverMod(String id, String nickname, int mask) async {
     DioManager().post(
-      BaseConfig.API_HOST + "pa32/customerMod",
+      BaseConfig.API_HOST + "pa32/giverMod",
       {
         "id": id,
-        "fieldId": fieldId,
-        "fieldValue": fieldValue,
+        "nickname": nickname,
+        "mask": mask,
       },
           (success) {
         if (success['code'] == 0) {
-          Navigator.pop(context, fieldValue);
+          CommonToast.showToast(success['msg']);
         } else {
           CommonToast.showToast(success['msg']);
         }
@@ -83,29 +119,13 @@ class _PersonalPage extends State<Personal> {
     );
   }
 
-  _giverRegister(String phone, String verificationCode, String pwd) async {
-    DioManager().post(
-      BaseConfig.API_HOST + "pa32/giverReg",
-      {
-        "phone": phone,
-        "verificationCode": verificationCode,
-        "pwd": pwd,
-      },
-          (success) {
-        if (success['code'] == 0) {
-          Navigator.pushNamed(context, "/LoginPage");
-        } else {
-          CommonToast.showToast(success['msg']);
-        }
-      },
-          (error) {
-        CommonToast.showToast(error);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    for(int i=0;i<myGivers.length;i++){
+      if(myGivers[i].phone==myPhone){
+        giverInt = i;
+      }
+    }
     if (flag) {
       var args = ModalRoute.of(context)!.settings.arguments;
 
@@ -118,6 +138,7 @@ class _PersonalPage extends State<Personal> {
       }
       // print("++++++52+++:${myPhone}");
     }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -125,8 +146,20 @@ class _PersonalPage extends State<Personal> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         centerTitle: true,
+        leading: GestureDetector(
+            onTap: () {
+              //Navigator.popUntil(context, ModalRoute.withName("/MyHomeMap"));
+              Navigator.pop(context);
+              // Navigator.pushNamed(context, "/MyHomeMap");
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.blue,
+              size: 18,
+            )
+        ),
         title: const Text(
-          "Set Password",
+          "Personal Info",
           textAlign: TextAlign.center,
         ),
         elevation: 0.5,
@@ -138,32 +171,70 @@ class _PersonalPage extends State<Personal> {
         margin: EdgeInsets.only(left: 40.0),
         child: Column(
           children: [
-            Text(
-              "Please set a new password that include 6-32 characters and no spaces.",
-              style: TextStyle(
-                height: 1.3,
-                color: Color(0xffA9A9A9),
-                fontSize: 15.0,
-              ),
-            ),
+
             Container(
               width: MediaQuery.of(context).size.width,
               // color: Colors.red,
               margin: EdgeInsets.only(top: 40.0),
               child: Column(
-                children: [
-                  //_customerDetail("1591099483739385856", 15, 15, "{0:1,3:10}"),
-                  FutureBuilder(
-                    future: message,
-                    builder: (context, snapshot) {
-                      if(!snapshot.hasData){
-                        return CircularProgressIndicator();
-                      }
-                      else{
-                        return Text(snapshot.data.toString());
-                      }
-                    }
-                  )
+                // children: List.generate(
+                //   myCaresData.length,
+                //   // 2,
+                //       (index) => Container(
+                //     width: 10,
+                //     height: 10,
+                //     margin: EdgeInsets.only(left: 5, right: 5),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(5),
+                //       color: MyswiperIndex == index
+                //           ? Color(0xff028AFE)
+                //           : Color(0xffC2C2C2),
+                //     ),
+                //   ),
+                // ),
+                children:
+                [
+
+                  ListTile(
+                      leading: const Icon(Icons.supervised_user_circle),
+                      title: AutoSizeText("NickName: " + myGivers[giverInt].nickname.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
+                      onTap: () {
+                        //_giverMod(myGivers[giverInt].id, "nibu921", 0);
+                        /* react to the tile being tapped */ }
+                  ),
+                  ListTile(
+                      leading: const Icon(Icons.phone),
+                      title: AutoSizeText("Phone Number: " + myGivers[giverInt].phone.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
+                      onTap: () { /* react to the tile being tapped */ }
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.mail),
+                    title: AutoSizeText("Email: " + myGivers[giverInt].email.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
+                    onTap: () { /* react to the tile being tapped */ }
+                ),
+                  ListTile(
+                    leading: const Icon(Icons.verified_user),
+                    title: AutoSizeText("User ID: " + myGivers[giverInt].id.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
+                    onTap: () { /* react to the tile being tapped */ }
+                ),
+
+                  // ListTile(
+                  //     leading: const Icon(Icons.flight_land),
+                  //     title: Text(myGivers[1]),
+                  //     onTap: () { /* react to the tile being tapped */ }
+                  // ),
+
+                  // FutureBuilder(
+                  //   future: message,
+                  //   builder: (context, snapshot) {
+                  //     if(!snapshot.hasData){
+                  //       return CircularProgressIndicator();
+                  //     }
+                  //     else{
+                  //       return Text(snapshot.data.toString());
+                  //     }
+                  //   }
+                  // )
                   // Row(
                   //   children: [
                   //     Text(
