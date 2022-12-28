@@ -289,7 +289,7 @@ class FindDevicesScreen extends StatelessWidget {
   }
 }
 void _sendSMS(String message, List<String> recipents) async {
-  String _result = await sendSMS(message: message, recipients: recipents)
+  String _result = await sendSMS(message: message, recipients: recipents, sendDirect: true)
       .catchError((onError) {
     print(onError);
   });
