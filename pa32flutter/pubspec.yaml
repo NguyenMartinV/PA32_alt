@@ -59,6 +59,7 @@ dependencies:
   flutter_phone_direct_caller: ^2.1.1
   expandable: ^5.0.1
   auto_size_text: ^3.0.0
+  vibration: ^1.7.6
 
 dev_dependencies:
   flutter_test:

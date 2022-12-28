@@ -1,13 +1,15 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors
 import 'dart:async';
 
+import 'package:date_format/date_format.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:pa32/utils/SPUtil.dart';
+import 'package:vibration/vibration.dart';
 
 import '../component/common_toast.dart';
 import '../http/DioManager.dart';
@@ -19,7 +21,7 @@ import '../http/config/BaseConfig.dart';
 
 class DevicesPage extends StatefulWidget {
   //const DevicesPage({Key? key}) : super(key: key);
-
+  bool flag = false;
   @override
   State<DevicesPage> createState() => _DevicesPageState();
 }
@@ -84,8 +86,9 @@ class FindDevicesScreen extends StatelessWidget {
   String _device = '';
 
   List<String> recipents = [];
-
-  bool flag = false;
+  List<String> whitelist = ['0'];
+  var templist="0";
+  bool ss=false;
 
   void didChangeAppLifecycleState(AppLifecycleState state){
     didChangeAppLifecycleState(state);
@@ -99,11 +102,6 @@ class FindDevicesScreen extends StatelessWidget {
       print('hello' + recipents[0].toString());
       //FlutterPhoneDirectCaller.callNumber(number);
     }
-  }
-
-  void _sendSMS(String message, List<String> recipents)async{
-    String _result = await sendSMS(message: message, recipients: recipents, sendDirect: true);
-    print(_result);
   }
 
   // Future getDevices() async{
@@ -159,9 +157,7 @@ class FindDevicesScreen extends StatelessWidget {
 
   FlutterBlue flutterBlue = FlutterBlue.instance;
   static const intro =
-      'To connect pendant, please press search button and then press and hold the button on the pendant until the red light appears. Find the pendant in the list and press \"CONNECT\". Once connected, press the search button and leave on. Your device is ready to use.'
-      '\n'
-      'Note: if an action is detected, the app will stop searching automatically';
+      'Press the search button, then hold the button on the pendant until the red light appears. The phone will connect, before going into scanning mode. Your device is ready to use.';
 
 
   @override
@@ -204,7 +200,7 @@ class FindDevicesScreen extends StatelessWidget {
               //   ),
               // ),
               StreamBuilder<List<BluetoothDevice>>(
-                stream: Stream.periodic(Duration(seconds: 30))
+                stream: Stream.periodic(Duration(seconds: 5))
                     .asyncMap((_) => FlutterBlue.instance.connectedDevices),
                 initialData: [],
                 builder: (c, snapshot) => Column(
@@ -218,7 +214,7 @@ class FindDevicesScreen extends StatelessWidget {
                       builder: (c, snapshot) {
                         if (snapshot.data ==
                             BluetoothDeviceState.connected) {
-                          CommonToast.showToast("Connected!");
+                          //CommonToast.showToast("Connected!");
                           return ElevatedButton(
                               child: Text('DISCONNECT'),
                               onPressed: () {
@@ -227,9 +223,9 @@ class FindDevicesScreen extends StatelessWidget {
                                 });
                                 d.disconnect();
                                 FlutterBlue.instance.stopScan();
+                                //remove from list here
                               }
                           );
-
                         }
                         return Text('Disconnected');
                       },
@@ -249,44 +245,9 @@ class FindDevicesScreen extends StatelessWidget {
                     }
                     else {
                       return Column();
-                      //   children: snapshot.data!
-                      //       .map(
-                      //         (r) => ScanResultTile(
-                      //         result: r,
-                      //         onTap: () async {
-                      //           if(r.device.name=='PD001'){
-                      //             const snackBar = SnackBar(content: Text('Connecting...Press and hold pendant again'));
-                      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //             await r.device.connect();
-                      //             r.device.state.listen((state)  async {
-                      //               print('connection state: $state');
-                      //               const snackBar = SnackBar(content: Text('Connected!'));
-                      //
-                      //               ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //               connectedDevices = await FlutterBlue.instance.connectedDevices;
-                      //             });
-                      //             //r.device.connect();
-                      //             //connectedDevices = await FlutterBlue.instance.connectedDevices;
-                      //             FlutterBlue.instance.stopScan();
-                      //           }
-                      //           else{
-                      //             const snackBar = SnackBar(content: Text('Connect a Pendant device'));
-                      //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      //           }
-                      //         }
-                      //
-                      //     ),
-                      //
-                      //   )
-                      //       .toList(),
-                      //
-                      // );
-                      }
-
+                    }
                   }
-
               ),
-
             ],
           ),
         ),
@@ -299,8 +260,10 @@ class FindDevicesScreen extends StatelessWidget {
               return FloatingActionButton(
                 child: Icon(Icons.stop),
                 onPressed: () {
+                  SPUtil.remove("whitelist");
+                  List<String> whitelist = [];
+                  templist='';
                   FlutterBlue.instance.stopScan();
-
                 } ,
                 backgroundColor: Colors.red,
               );
@@ -308,120 +271,150 @@ class FindDevicesScreen extends StatelessWidget {
               return FloatingActionButton(
                 backgroundColor: Colors.blue,
                 child: Icon(Icons.search, color: Colors.white,),
-                onPressed: () async {
-                  counter =0;
-                  FlutterBlue.instance.startScan();
-                  CommonToast.showToast("Scanning!");
-                  //getDevices();
-
-
-                  if(true){
-                    //FlutterBlue.instance.startScan(/*timeout: Duration(seconds: 30)*/);
-                    var devinf = List.filled(100000,'0');  //value 1000 determines size of the results list to keep. 300~ is good enough for one scan without restarting app
-                    var sig = List.filled(devinf.length,-100);
-                    var name = List.filled(devinf.length,'0');
-                    var i=0;
-                    var ind=1;
-
-                    var subscription = FlutterBlue.instance.scanResults.listen((results) async {
-
-                      for (ScanResult r in results) {
-                        print(r.advertisementData);
-                        if(r.device.name=="PD001"&&r.rssi<-45){
-                          //add conditional to check if device is connected then call
-                          print("Please bring pendant closer. Try again.");
-                          CommonToast.showToast("Please bring pendant closer. Try again.");
-                          flutterBlue.stopScan();
-                        }
-                        if(r.device.name=="PD001"&&r.rssi>-45){
-                          //conditional to check if device has been connected then say device already connect else do below
-                          print('${r.device.name} found! rssi: ${r.rssi}');
-                          CommonToast.showToast("${r.device.name} found! rssi: ${r.rssi}");
-                          r.device.connect();
-                          flutterBlue.stopScan();
-                        }
-
-    //                     i++;
-    //                     sig[i] = r.rssi;
-    //                     devinf[i] = r.device.id.id;
-    //                     name[i]=r.device.name;
-    //                     int key = 0;
-    //                     //print(counter);
-    //                     if(r.device.name=='PD001') {
-    //                       connectedDevices = await FlutterBlue.instance.connectedDevices;
-    //                       print(connectedDevices);
-    //                       print(r.device);
-    //                       if(connectedDevices.contains(r.device)&&counter==1){
-    //                         key = r.advertisementData.manufacturerData.keys.single;
-    //
-    //
-    //                         var adat=r.advertisementData.manufacturerData[key]?.toList();
-    //                         var outp=String.fromCharCode(adat![17])+String.fromCharCode(adat[18]);
-    //                         print(outp + 'output');
-    //                         if(outp.contains('2')){
-    //                           print('Pendant Key Event Detected');}
-    //                         if(outp.contains('1')){
-    //                           print('Fall Event Detected');}
-    //                         if(outp.contains('0')){
-    //                           print('Neutral. No Event Detected');}
-    //                         print(outp);
-    //                         String message = "This is a test message";
-    //                         int pageNo = 0;
-    //                         int pageSize = 0;
-    //                         String qry_customerId_eq = "";
-    //
-    // DioManager().post(
-    // BaseConfig.API_HOST + "pa32/emergencyList",
-    // {
-    // "pageNo": pageNo,
-    // "pageSize": pageSize,
-    // "qry_customerId_eq": qry_customerId_eq,
-    // },
-    // (success) {
-    // MyEmergencyCallEntity bean = MyEmergencyCallEntity.fromJson(success);
-    //
-    // },
-    // (error) {},
-    // );
-    //                         // FirebaseFirestore.instance
-    //                         //     .collection('users')
-    //                         //     .doc(_device)
-    //                         //     .get()
-    //                         //     .then((DocumentSnapshot documentSnapshot) async {
-    //                         //   try {
-    //                         //     FlutterBlue.instance.stopScan();
-    //                         //     Position pos = await _determinePosition();
-    //                         //     String position = pos.toString();
-    //                         //     //print(position);
-    //                         //     dynamic nested = documentSnapshot.get(FieldPath(['emergency']));
-    //                         //     String number = nested.toString();
-    //                         //     FlutterPhoneDirectCaller.callNumber(number);
-    //                         //     recipents = [number];
-    //                         //     flag = true;
-    //                         //     _sendSMS('This is an emergency alert.\n' + position + ': This is my current location', recipents);
-    //                         //
-    //                         //   } on StateError catch(e) {
-    //                         //     print('No nested field exists!');
-    //                         //   }
-    //                         // });
-    //                         break;
-    //                       }
-    //                       counter = 1;
-    //                     }
-                      }
-                      results.clear();
-                      //FlutterBlue.instance.stopScan();
-                    });
-                  }
-                  //counter+=3;
-
+                onPressed: () async{
+                  scan_initial(whitelist,ss,templist);
+                  Timer.periodic(Duration(milliseconds: 9000), (Timer t) => scan(whitelist,t,ss,templist));
+                  Vibration.vibrate(duration: 50);
                 },
 
               );
             }
+
+
           }
+
       ),
+
     );
   }
 }
+void _sendSMS(String message, List<String> recipents) async {
+  String _result = await sendSMS(message: message, recipients: recipents)
+      .catchError((onError) {
+    print(onError);
+  });
+  print(_result);
+}
 
+//do not use this one
+scan(whitelist,timer,ss,templist){
+
+  FlutterBlue.instance.startScan(/*timeout: Duration(milliseconds: 5500)*/);
+  var subscription = FlutterBlue.instance.scanResults.listen((results) async {
+    for (ScanResult r in results) {
+      SPUtil.get("whitelist").then((value) => {
+        if (value != null){
+          templist = value
+        }
+      });
+      print(templist+"mmmTL");
+      if(whitelist.contains(templist)){}
+      else{
+        //whitelist.insert(0,templist);
+        whitelist[0]=templist.toString();
+      }
+      print(whitelist.toString()+"---WL");
+      if(r.device.name == "PD001"){
+        print(r.device.id.id+"IDDDDDDDDDD");
+        if(whitelist.contains(r.device.id.id)){
+          Vibration.vibrate(duration: 300);
+          CommonToast.showToast(
+              "Call/Text placeholder");
+          String message = "This is a test message!";
+          List<String> recipents = ["4692353164", "8178186318"];
+          _sendSMS(message, recipents);
+          FlutterBlue.instance.stopScan();
+          results.clear();
+        }
+        else{
+          if (r.device.name == "PD001" && r.rssi < -45) {
+            //add conditional to check if device is connected then call
+            CommonToast.showToast(
+                "Please bring pendant closer. Try again."+whitelist.toString());
+            Vibration.vibrate(duration: 10);
+            FlutterBlue.instance.stopScan();
+            results.clear();
+          }
+          if (r.device.name == "PD001" && r.rssi > -45) {
+            //conditional to check if device has been connected then say device already connect else do below
+            CommonToast.showToast(
+                "${r.device.name} found! rssi: ${r.rssi}");
+            Vibration.vibrate(duration: 100);
+            r.device.connect();
+            Vibration.vibrate(duration: 100);
+            //whitelist.insert(0,r.device.id.id.toString());
+            whitelist[0]=r.device.id.id;
+            SPUtil.save("whitelist", whitelist[0]);
+            CommonToast.showToast("Connected!");
+            FlutterBlue.instance.stopScan();
+            results.clear();
+          }
+        }}/*results.clear();*/}results.clear();
+  });
+}
+
+//for some reason, only this look runs
+scan_initial(whitelist,ss,templist){
+  FlutterBlue.instance.startScan(/*timeout: Duration(milliseconds: 5500)*/);
+  var subscription = FlutterBlue.instance.scanResults.listen((results) async {
+    for (ScanResult r in results) {
+      SPUtil.get("whitelist").then((value) => {
+        if (value != null){
+          templist = value
+        }
+      });
+      print(templist+"mmmTL");
+      if(whitelist.contains(templist)){}
+      else{
+        //whitelist.insert(0,templist);
+        whitelist[0]=templist.toString();
+      }
+      print(whitelist.toString()+"---WL");
+      if(r.device.name == "PD001"){
+        print(r.device.id.id+"IDDDDDDDDDD");
+        if(whitelist.contains(r.device.id.id)){
+          Vibration.vibrate(duration: 300);
+          CommonToast.showToast(
+              "Call/Text placeholder");
+          String message = "This is a test message!";
+          List<String> recipents = ["4692353164", "8178186318"];
+          _sendSMS(message, recipents);
+          FlutterBlue.instance.stopScan();
+          results.clear();
+        }
+        else{
+          if (r.device.name == "PD001" && r.rssi < -45) {
+            //add conditional to check if device is connected then call
+            CommonToast.showToast(
+                "Please bring pendant closer. Try again."+whitelist.toString());
+            Vibration.vibrate(duration: 10);
+            FlutterBlue.instance.stopScan();
+            results.clear();
+          }
+          if (r.device.name == "PD001" && r.rssi > -45) {
+            //conditional to check if device has been connected then say device already connect else do below
+            CommonToast.showToast(
+                "${r.device.name} found! rssi: ${r.rssi}");
+            Vibration.vibrate(duration: 100);
+            r.device.connect();
+            Vibration.vibrate(duration: 100);
+            //whitelist.insert(0,r.device.id.id.toString());
+            whitelist[0]=r.device.id.id;
+            SPUtil.save("whitelist", whitelist[0]);
+            CommonToast.showToast("Connected!");
+            FlutterBlue.instance.stopScan();
+            results.clear();
+          }
+        }}/*results.clear()*/;}results.clear();
+  });
+}
+
+bool checkConnect(String deviceID,whitelist){
+  // for(int i = 0;i<whiteList.length;i++){
+  //   if(deviceID==whiteList[i])
+  // }
+  if(whitelist.contains(deviceID)){
+    return true;
+  }
+  return false;
+}

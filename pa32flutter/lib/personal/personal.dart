@@ -81,7 +81,7 @@ class _PersonalPage extends State<Personal> {
 
   @override
   void initState() {
-    //_customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
+    _customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
     // TODO: implement initState
     super.initState();
     SPUtil.get("myPhoneText").then(
@@ -141,7 +141,7 @@ class _PersonalPage extends State<Personal> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFA2C8FC),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -165,6 +165,7 @@ class _PersonalPage extends State<Personal> {
         elevation: 0.5,
       ),
       body: Container(
+
         // color: Colors.red,
         width: MediaQuery.of(context).size.width - 80.0,
         padding: EdgeInsets.only(top: 20.0),
@@ -194,7 +195,7 @@ class _PersonalPage extends State<Personal> {
                 // ),
                 children:
                 [
-
+                  if(myGivers.isNotEmpty)
                   ListTile(
                       leading: const Icon(Icons.supervised_user_circle),
                       title: AutoSizeText("NickName: " + myGivers[giverInt].nickname.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
@@ -202,16 +203,19 @@ class _PersonalPage extends State<Personal> {
                         //_giverMod(myGivers[giverInt].id, "nibu921", 0);
                         /* react to the tile being tapped */ }
                   ),
+                  if(myGivers.isNotEmpty)
                   ListTile(
                       leading: const Icon(Icons.phone),
                       title: AutoSizeText("Phone Number: " + myGivers[giverInt].phone.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
                       onTap: () { /* react to the tile being tapped */ }
                   ),
+                  if(myGivers.isNotEmpty)
                   ListTile(
                     leading: const Icon(Icons.mail),
                     title: AutoSizeText("Email: " + myGivers[giverInt].email.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
                     onTap: () { /* react to the tile being tapped */ }
                 ),
+                  if(myGivers.isNotEmpty)
                   ListTile(
                     leading: const Icon(Icons.verified_user),
                     title: AutoSizeText("User ID: " + myGivers[giverInt].id.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
