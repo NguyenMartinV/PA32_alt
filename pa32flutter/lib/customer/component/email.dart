@@ -103,7 +103,7 @@ class _EmailContentPage extends State<EmailContent> {
           child: Row(
             children: [
               SizedBox(
-                child: Text("Veriflcation"),
+                child: Text("Verification"),
                 width: 100.0,
               ),
               SizedBox(

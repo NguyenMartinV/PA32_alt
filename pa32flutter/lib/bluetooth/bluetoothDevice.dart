@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, use_key_in_widget_constructors
 import 'dart:async';
 
-import 'package:date_format/date_format.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -12,9 +11,8 @@ import 'package:pa32/utils/SPUtil.dart';
 import 'package:vibration/vibration.dart';
 
 import '../component/common_toast.dart';
-import '../http/DioManager.dart';
 import '../http/bean/my_emergency_call_entity.dart';
-import '../http/config/BaseConfig.dart';
+
 
 
 
@@ -89,6 +87,7 @@ class FindDevicesScreen extends StatelessWidget {
   List<String> whitelist = ['0'];
   var templist="0";
   bool ss=false;
+  var emnum="1";
 
   void didChangeAppLifecycleState(AppLifecycleState state){
     didChangeAppLifecycleState(state);
@@ -272,6 +271,12 @@ class FindDevicesScreen extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 child: Icon(Icons.search, color: Colors.white,),
                 onPressed: () async{
+                  SPUtil.get("myPhoneText").then((value) => {
+                    if (value != null){
+                      emnum = value
+                    }
+                  });
+                  print("emnum is"+emnum);
                   scan_initial(whitelist,ss,templist);
                   Timer.periodic(Duration(milliseconds: 9000), (Timer t) => scan(whitelist,t,ss,templist));
                   Vibration.vibrate(duration: 50);
