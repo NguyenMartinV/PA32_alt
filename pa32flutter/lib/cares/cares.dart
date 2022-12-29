@@ -166,7 +166,7 @@ class _CaresPageState extends State<CaresPage> {
         ),
         centerTitle: true,
         title: const Text(
-          "Cares",
+          "Customer Overview",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,

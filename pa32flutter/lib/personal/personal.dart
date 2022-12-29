@@ -23,7 +23,7 @@ class _PersonalPage extends State<Personal> {
   var firstName = TextEditingController();
   var lastName = TextEditingController();
   var email = TextEditingController();
-  var phoneNumber= TextEditingController();
+  var nickName= TextEditingController();
   Future<Object> ? message;
   String callOutTime = '';
   String callComeTime = '';
@@ -38,6 +38,25 @@ class _PersonalPage extends State<Personal> {
   String userImgSrc = '';
   String token = '';
   int giverInt = 0;
+
+  _addGiverCustomer(
+      int giverId,
+      int customerId,
+      )async {
+    DioManager().post(
+        BaseConfig.API_HOST + "pa32/addGiverCustomer",
+        {
+          "giverId": giverId,
+          "customerId": customerId,
+        },
+            (success){
+          CommonToast.showToast('success');
+        },
+            (error){
+          CommonToast.showToast('fail');
+        }
+    );
+  }
   _customerList(
       int sortType,
       int sort,
@@ -96,11 +115,12 @@ class _PersonalPage extends State<Personal> {
         setState(() {
           myUserId = value.toString();
         })
+
       },
     );
   }
 
-  _giverMod(String id, String nickname, int mask) async {
+  _giverMod(String id,String nickname, int mask) async {
     DioManager().post(
       BaseConfig.API_HOST + "pa32/giverMod",
       {
@@ -110,9 +130,9 @@ class _PersonalPage extends State<Personal> {
       },
           (success) {
         if (success['code'] == 0) {
-          CommonToast.showToast(success['msg']);
+          CommonToast.showToast("success");
         } else {
-          CommonToast.showToast(success['msg']);
+          CommonToast.showToast("error");
         }
       },
           (error) {},
@@ -200,7 +220,40 @@ class _PersonalPage extends State<Personal> {
                       leading: const Icon(Icons.supervised_user_circle),
                       title: AutoSizeText("NickName: " + myGivers[giverInt].nickname.toString(), style: TextStyle(fontSize: 30), maxLines: 2,),
                       onTap: () {
-                        //_giverMod(myGivers[giverInt].id, "nibu921", 0);
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Edit Nickname: '),
+                                content: TextField(
+                                  onChanged: (value) {
+                                    //print("Hello");
+                                  },
+                                  controller: nickName,
+                                  decoration: InputDecoration(hintText: "Text Field in Dialog"),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      child: Text('SUBMIT'),
+                                      onPressed: () {
+                                        String nickN = nickName.text.trim();
+                                        print(BigInt.parse(myGivers[giverInt].id));
+                                        _giverMod(myGivers[giverInt].id, nickN, 15);
+                                        Navigator.of(context).pop();
+
+
+
+
+
+                                      }
+                                  )
+                                ],
+                              );
+
+                            }
+                        );
+                        //_giverMod(myGivers[giverInt].id, "Kratos", 15);
+                        //_addGiverCustomer(1599883632386240512, 1608195394302898176);
                         /* react to the tile being tapped */ }
                   ),
                   if(myGivers.isNotEmpty)

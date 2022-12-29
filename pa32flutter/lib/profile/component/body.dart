@@ -99,7 +99,7 @@ class _BodyState extends State<Body> {
                     // Need to make this page SCROLLABLE
                     ProfileMenu(
                       icon: Icons.elderly,
-                      text: "Cares",
+                      text: "Customer Overview",
                       press: () {
                         Navigator.pushNamed(
                           context,
