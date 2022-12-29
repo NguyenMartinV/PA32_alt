@@ -33,6 +33,7 @@ class _ServicePageState extends State<ServicePage> {
   String fullName = "";
   // String InitBirth = '';
   int gender = 1;
+  int InitGiverID = 0;
   String InitAddress = '';
   String InitPCondition = '';
   var weAddress = '';
@@ -45,6 +46,22 @@ class _ServicePageState extends State<ServicePage> {
   String state = "";
   String addressDetail = "";
   String zipCode = "";
+
+  @override
+  void initState() {
+    //_customerList(0, 0, 1, 999, 15, 15, "0:1,3:10");
+    // TODO: implement initState
+    super.initState();
+
+    SPUtil.get("userId").then(
+          (value) => {
+        setState(() {
+          InitGiverID = value.toString() as int;
+        })
+
+      },
+    );
+  }
 
   void _showDatePicker() {
     Pickers.showDatePicker(
@@ -67,6 +84,24 @@ class _ServicePageState extends State<ServicePage> {
       // onChanged: (p) => print(p),
     );
   }
+  _addGiverCustomer(
+      int giverId,
+      int customerId,
+      )async {
+    DioManager().post(
+        BaseConfig.API_HOST + "pa32/addGiverCustomer",
+        {
+          "giverId": giverId,
+          "customerId": customerId,
+        },
+        (success){
+          CommonToast.showToast('success');
+        },
+        (error){
+          CommonToast.showToast('fail');
+        }
+    );
+  }
 
   _customerAdd(
     String imei,
@@ -79,6 +114,7 @@ class _ServicePageState extends State<ServicePage> {
     String birth,
     String address,
     String PCondition,
+    int giverID,
     String state,
     String detailAddress,
     String zipCode
@@ -96,6 +132,7 @@ class _ServicePageState extends State<ServicePage> {
         "birth": birth,
         "address": address,
         "physicalCondition": PCondition,
+        "giverId": giverID,
         "state":state,
         "detailAddress":detailAddress,
         "zipCode":zipCode
@@ -568,11 +605,13 @@ class _ServicePageState extends State<ServicePage> {
                                 '${_dateTime.toString().substring(0, 7)} ',
                                 "$weAddress",
                                 '$InitPCondition ',
+                                InitGiverID,
+                                  //1599883632386240512,
                                 state,
                                 addressDetail,
                                 zipCode
                               );
-
+                              //_addGiverCustomer(1599883632386240512, )
                             },
                           ),
                         )

@@ -32,7 +32,7 @@ class _DevicesPageState extends State<DevicesPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
 
-      color: Colors.lightBlue,
+      color: Color(0xFFA2C8FC),
       home: StreamBuilder<BluetoothState>(
           stream: FlutterBlue.instance.state,
           initialData: BluetoothState.unknown,
@@ -55,7 +55,7 @@ class BluetoothOffScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Color(0xFFA2C8FC),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -165,7 +165,7 @@ class FindDevicesScreen extends StatelessWidget {
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Color(0xFFA2C8FC),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: (){
@@ -176,8 +176,8 @@ class FindDevicesScreen extends StatelessWidget {
         title: Text('Find Devices'),
       ),
       body: RefreshIndicator(
-        backgroundColor: Colors.blue,
-        color: Colors.blue,
+        backgroundColor: Color(0xFFA2C8FC),
+        color: Color(0xFFA2C8FC),
         onRefresh: () =>
             FlutterBlue.instance.startScan(/*timeout: Duration(seconds: 30)*/),
         child: SingleChildScrollView(
@@ -269,7 +269,7 @@ class FindDevicesScreen extends StatelessWidget {
               );
             } else {
               return FloatingActionButton(
-                backgroundColor: Colors.blue,
+                backgroundColor: Color(0xFFA2C8FC),
                 child: Icon(Icons.search, color: Colors.white,),
                 onPressed: () async{
                   scan_initial(whitelist,ss,templist);
