@@ -218,7 +218,7 @@ class FindDevicesScreen extends StatelessWidget {
                               child: Text('DISCONNECT'),
                               onPressed: () {
                                 d.state.listen((state) {
-                                  print('connection state: $state');
+                                  //print('connection state: $state');
                                 });
                                 d.disconnect();
                                 FlutterBlue.instance.stopScan();
@@ -276,7 +276,7 @@ class FindDevicesScreen extends StatelessWidget {
                       emnum = value
                     }
                   });
-                  print("emnum is"+emnum);
+                  //print("emnum is"+emnum);
                   scan_initial(whitelist,ss,templist);
                   Timer.periodic(Duration(milliseconds: 9000), (Timer t) => scan(whitelist,t,ss,templist));
                   Vibration.vibrate(duration: 50);
@@ -312,15 +312,15 @@ scan(whitelist,timer,ss,templist){
           templist = value
         }
       });
-      print(templist+"mmmTL");
+      //print(templist+"mmmTL");
       if(whitelist.contains(templist)){}
       else{
         //whitelist.insert(0,templist);
         whitelist[0]=templist.toString();
       }
-      print(whitelist.toString()+"---WL");
+      //print(whitelist.toString()+"---WL");
       if(r.device.name == "PD001"){
-        print(r.device.id.id+"IDDDDDDDDDD");
+        //print(r.device.id.id+"IDDDDDDDDDD");
         if(whitelist.contains(r.device.id.id)){
           Vibration.vibrate(duration: 300);
           CommonToast.showToast(
@@ -368,15 +368,15 @@ scan_initial(whitelist,ss,templist){
           templist = value
         }
       });
-      print(templist+"mmmTL");
+      //print(templist+"mmmTL");
       if(whitelist.contains(templist)){}
       else{
         //whitelist.insert(0,templist);
         whitelist[0]=templist.toString();
       }
-      print(whitelist.toString()+"---WL");
+      //print(whitelist.toString()+"---WL");
       if(r.device.name == "PD001"){
-        print(r.device.id.id+"IDDDDDDDDDD");
+        //print(r.device.id.id+"IDDDDDDDDDD");
         if(whitelist.contains(r.device.id.id)){
           Vibration.vibrate(duration: 300);
           CommonToast.showToast(
