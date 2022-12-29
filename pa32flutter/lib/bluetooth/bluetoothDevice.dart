@@ -271,7 +271,7 @@ class FindDevicesScreen extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 child: Icon(Icons.search, color: Colors.white,),
                 onPressed: () async{
-                  SPUtil.get("myPhoneText").then((value) => {
+                  SPUtil.get("emergencyphone").then((value) => {
                     if (value != null){
                       emnum = value
                     }

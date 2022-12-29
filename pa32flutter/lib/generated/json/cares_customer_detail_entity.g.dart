@@ -1,5 +1,6 @@
 import 'package:pa32/generated/json/base/json_convert_content.dart';
 import 'package:pa32/http/bean/cares_customer_detail_entity.dart';
+import 'package:pa32/utils/SPUtil.dart';
 
 CaresCustomerDetailEntity $CaresCustomerDetailEntityFromJson(
     Map<String, dynamic> json) {
@@ -251,6 +252,7 @@ CaresCustomerDetailDataEmergency $CaresCustomerDetailDataEmergencyFromJson(
   final String? phone = jsonConvert.convert<String>(json['phone']);
   if (phone != null) {
     caresCustomerDetailDataEmergency.phone = phone;
+    SPUtil.save("emergencyphone",phone);
   }
   final String? callTime = jsonConvert.convert<String>(json['callTime']);
   if (callTime != null) {
